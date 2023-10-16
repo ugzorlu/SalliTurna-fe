@@ -1,0 +1,158 @@
+@use 'global-variables' as *;
+
+.post-container {
+	min-height: 100%;
+	max-width: 40rem;
+	margin: 0 auto;
+}
+@media screen and (max-width: $media-bp-medium) {
+	.post-container {
+		width: 95%;
+	}
+}
+
+.post-form-container {
+	position: relative;
+	border: 0.05rem solid $color-border;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	background-color: $color-hover;
+}
+
+.post-form {
+	position: relative;
+}
+
+.post-textarea-container {
+	position: relative;
+	margin-top: 0.75rem;
+	padding-top: 0.25rem;
+}
+
+.post-spinner {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index: 100;
+}
+
+.post-textarea {
+	position: relative;
+	width: 98%;
+	margin: 0.25rem auto;
+}
+
+.post-textarea-bottom-container {
+	display: inline-block;
+	position: relative;
+	min-height: 4rem;
+	width: 100%;
+}
+
+.post-uploadphoto-preview-wrapper {
+	position: relative;
+	margin: 2.5rem 0;
+	width: 75%;
+}
+
+.post-uploadphoto {
+	position: absolute;
+	visibility: hidden;
+	top: 0;
+	left: 0;
+}
+
+.post-uploadphoto-button-wrapper {
+	position: relative;
+	top: 0.25rem;
+	margin-left: 1.25rem;
+	float: left;
+	cursor: pointer !important;
+}
+
+.post-uploadphoto-button-wrapper p {
+	float: right;
+	font-size: 0.75rem;
+	display: block;
+	margin-left: 0.25rem;
+	margin-top: 0.25rem;
+	position: relative;
+}
+
+.post-uploadphoto-button-wrapper input {
+	cursor: pointer;
+}
+
+.post-button-info-wrapper {
+	display: none;
+	position: relative;
+	top: 0.5rem;
+	left: 1.25rem;
+	font-size: 0.75rem;
+}
+
+.post-uploadphoto-preview {
+	position: relative;
+	margin: 0.5rem 1.25rem;
+	width: 100%;
+}
+
+.post-uploadphoto-photopreview-wrapper {
+	width: 50%;
+	float: left;
+	margin-right: 0.5rem;
+}
+
+.post-uploadphoto-photopreview {
+	width: 100%;
+}
+
+.post-uploadphoto-info {
+	font-size: 0.75rem;
+	width: 45%;
+	float: left;
+	word-break: break-word;
+}
+
+.post-button-send-wrapper {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 25%;
+}
+
+.post-button-send-container {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 25%;
+}
+
+.post-button-send {
+	position: relative;
+	right: 0;
+	float: right;
+	margin-bottom: 0.25rem;
+	margin-right: 1.25rem;
+	background-color: $color-primary !important;
+	color: $color-dirtywhite !important;
+}
+
+.post-button-cancel-container {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.post-button-cancel {
+	position: absolute;
+	margin-left: 1.25rem;
+	bottom: 0.25rem;
+	background-color: $color-live !important;
+	color: $color-dirtywhite !important;
+}

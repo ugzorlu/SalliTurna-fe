@@ -1,0 +1,111 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+	-webkit-transition: $property $duration, $timing;
+	-moz-transition: $property $duration $timing;
+	-ms-transition: $property $duration $timing;
+	-o-transition: $property $duration $timing;
+	transition: $property $duration $timing;
+}
+
+@mixin transform($transforms...) {
+	$transform-list: join($transforms, null, space);
+
+	-webkit-transform: $transform-list;
+	-moz-transform: $transform-list;
+	-ms-transform: $transform-list;
+	-o-transform: $transform-list;
+	transform: $transform-list;
+}
+
+.dialog-container {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 102;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+}
+
+.dialog {
+	position: fixed;
+	z-index: 10003;
+	left: 50%;
+	top: 50%;
+	@include transform(translate(-50%, -50%));
+	max-width: 75%;
+	min-width: 20rem;
+	border-style: solid;
+	border-width: 0.05rem;
+	border-radius: 0.2rem;
+	border-color: #d37d82;
+	background-color: #eff2eb;
+}
+
+.dialog-titlebar {
+	color: white;
+	text-align: center;
+	padding: 0.6rem 0;
+}
+
+.dialog-warning {
+	background-color: #ec971f !important;
+}
+.dialog-error {
+	background-color: #c9302c !important;
+}
+.dialog-info {
+	background-color: $color-primary !important;
+	color: #fff !important;
+	border-width: 0.05rem !important;
+	border-style: solid !important;
+}
+.dialog-success {
+	background-color: #449d44 !important;
+}
+
+.dialog-text {
+	padding: 1.25rem;
+}
+
+.dialog-message {
+	white-space: pre-line;
+}
+
+.dialog-leftbutton,
+.dialog-rightbutton {
+	display: flex;
+	position: relative;
+	margin: 0.5rem;
+	height: 1.75rem;
+	font-weight: 600;
+	font-family: $font-menu;
+	border: 0.05rem solid $color-primary;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	@include transition(all, 0.25s, ease-out);
+	text-align: center;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+	cursor: pointer;
+	background-color: $color-dirtywhite;
+	color: $color-primary;
+	&:hover {
+		background-color: $color-hover;
+	}
+}
+.dialog-leftbutton {
+	width: 5rem;
+	float: left;
+}
+.dialog-rightbutton {
+	width: 6rem;
+	float: right;
+}
+@media screen and (max-width: $media-bp-medium) {
+	.dialog-leftbutton,
+	.dialog-rightbutton {
+		width: 40%;
+	}
+}

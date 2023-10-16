@@ -1,0 +1,14 @@
+node_modules
+www/bundle.js
+public/.htaccess
+webpack.dev.js
+webpack.config.js
+webpack.prod.js
+sitemap.xml
+server.key
+public/img
+server.crt
+public/bundle.js
+src/img/logo.png
+src/img/home-banner.jpg
+src/img/textlogo.png

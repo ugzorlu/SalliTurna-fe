@@ -1,0 +1,550 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+	-webkit-transition: $property $duration, $timing;
+	-moz-transition: $property $duration $timing;
+	-ms-transition: $property $duration $timing;
+	-o-transition: $property $duration $timing;
+	transition: $property $duration $timing;
+}
+
+@mixin animation(
+	$name,
+	$duration,
+	$timing: ease,
+	$delay: 0s,
+	$iterationcount: 1
+) {
+	-webkit-animation: $name $duration, $timing, $delay $iterationcount;
+	-moz-animation: $name $duration $timing $delay $iterationcount;
+	-ms-animation: $name $duration $timing $delay $iterationcount;
+	-o-animation: $name $duration $timing $delay $iterationcount;
+	animation: $name $duration $timing $delay $iterationcount;
+}
+
+@mixin transform($transforms...) {
+	$transform-list: join($transforms, null, space);
+
+	-webkit-transform: $transform-list;
+	-moz-transform: $transform-list;
+	-ms-transform: $transform-list;
+	-o-transform: $transform-list;
+	transform: $transform-list;
+}
+
+.topic-container {
+	margin: 0 auto;
+	max-width: 60rem;
+	min-height: 100%;
+	padding-right: 0.5rem;
+}
+@media screen and (max-width: 40em) {
+	.topic-container {
+		width: 95%;
+		margin: 0 auto;
+	}
+}
+
+// .rekl-container {
+// 	min-width: 20rem;
+// 	margin-top: 0.5rem;
+// 	border-radius: 0.2rem;
+// }
+
+.topic-title-container {
+	position: relative;
+	margin-top: 0.5rem;
+	background-color: white;
+	border-top: 0.05rem solid $color-border;
+	border-left: 0.05rem solid $color-border;
+	border-right: 0.05rem solid $color-border;
+	border-top-left-radius: 0.2rem;
+	border-top-right-radius: 0.2rem;
+	box-sizing: border-box;
+	color: $color-softtext;
+}
+
+.topic-title-wrapper {
+	padding: 0.25rem 1rem;
+	text-align: center;
+}
+
+.topic-title-wrapper > a {
+	text-decoration: none;
+	color: $color-softtext;
+}
+
+.topic-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin: 0;
+}
+
+.topic-title-skeleton {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin: 0.25rem;
+	width: 70%;
+	height: 1.5rem;
+	padding: 0.25rem;
+	border-radius: 0.2rem;
+	background: linear-gradient(
+		90deg,
+		$color-dirtywhite 0%,
+		whitesmoke 50%,
+		$color-dirtywhite 100%
+	);
+	background-size: 99% 100%, cover;
+	@include animation(loading, 2s infinite);
+}
+.topic-title-skeleton:before {
+	content: '\00a0';
+}
+
+.topic-info-container {
+	padding: 0.25rem 0;
+	text-align: center;
+}
+
+.topic-time-wrapper {
+	display: inline-flex;
+	width: 100%;
+	justify-content: center;
+}
+
+.topic-venue-wrapper,
+.topic-date-wrapper,
+.topic-clock-wrapper {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 0.25rem;
+}
+
+.topic-venue,
+.topic-date,
+.topic-clock {
+	position: relative;
+	margin-left: 0.25rem;
+}
+
+.topic-topbar-container {
+	position: relative;
+	box-sizing: border-box;
+	background-color: white;
+}
+
+.topic-topbar-topicinfo-container {
+	border-top: 0.05rem solid $color-border;
+	border-left: 0.05rem solid $color-border;
+	border-right: 0.05rem solid $color-border;
+}
+
+.topic-topbar-postsinfo-container {
+	border: 0.05rem solid $color-border;
+	border-bottom-left-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+
+.topic-topbar {
+	position: relative;
+	height: 2.5rem;
+}
+
+.topic-attendance-container {
+	display: inline-block;
+	position: relative;
+	top: 0.25rem;
+	left: 50%;
+	@include transform(translateX(-50%));
+}
+
+.topic-attendance-count,
+.topic-attendance-count-text {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+
+.topic-attendance-userdeclaration {
+	display: inline-block;
+	position: relative;
+	margin-left: 1rem;
+	height: 2rem;
+	border: 0.05rem solid #b8b8c7;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	padding: 0 0.5rem;
+	vertical-align: middle;
+	@include transition(background-color, 0.25s);
+	cursor: pointer;
+	&:hover {
+		background-color: $color-hover;
+	}
+}
+
+.topic-attendance-userdeclaration-text {
+	position: relative;
+	top: 50%;
+	@include transform(translateY(-50%));
+	&:before {
+		content: '+\00a0\00a0';
+		border-right: 0.05rem solid #b8b8c7;
+		box-sizing: border-box;
+		color: $color-primary;
+		font-weight: bold;
+	}
+	&:after {
+		content: '\00a0\00a0 1 Gün Kala Hatırlat';
+	}
+}
+
+.topic-attendance-userdeclaration-active {
+	display: inline-block;
+	position: relative;
+	margin-left: 1rem;
+	height: 2rem;
+	border: 0.05rem solid #b8b8c7;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	padding: 0 0.5rem;
+	font-weight: bold;
+	background-color: #dcede8;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.topic-attendance-userdeclaration-active-text {
+	position: relative;
+	top: 50%;
+	@include transform(translateY(-50%));
+	&:after {
+		content: 'Hatırlatılacak';
+	}
+}
+.topic-topbar-hashtag {
+	height: auto;
+}
+
+.topic-hashtag-container {
+	display: inline-block;
+	background-color: white;
+	border: 0.05rem solid $color-border;
+	border-radius: 1rem;
+	box-sizing: border-box;
+	padding: 0.25rem 0.5rem;
+	margin: 0.25rem;
+	@include transition(background-color, 0.25s);
+	cursor: pointer;
+	&:hover {
+		background-color: $color-hover;
+	}
+}
+
+/* .topic-hashtag-container{
+  display: inline-block;
+  position: relative;
+  margin: 0.25rem 0.5rem;
+  border: 0.05rem solid #B8B8C7;
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  padding: 0 0.5rem;
+  cursor: pointer;
+} */
+
+.topic-hashtag-text {
+	position: relative;
+}
+.topic-hashtag-text:before {
+	content: '#\00a0';
+	color: $color-primary;
+	font-weight: bold;
+}
+
+.topic-hashtag-active-container {
+	background-color: #dcede8;
+}
+
+.topic-topbar-hashtag-container {
+	/* border-top: 0.05rem solid $color-border; */
+	border-left: 0.05rem solid $color-border;
+	border-right: 0.05rem solid $color-border;
+}
+
+.topic-hashtags-container {
+	display: inline-block;
+	position: relative;
+	left: 50%;
+	@include transform(translateX(-50%));
+	text-align: center;
+	margin-top: 0.5rem;
+}
+
+.topic-hashtags-info {
+	font-size: 0.8rem;
+}
+
+.topic-orderby-container {
+	display: inline-block;
+	position: relative;
+	margin-left: 1rem;
+	height: 100%;
+}
+
+.topic-orderby-dropdown {
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	@include transform(translateY(-50%));
+	padding: 0rem 1rem 0 0 !important;
+	border: none !important;
+	box-shadow: none !important;
+	color: inherit;
+	z-index: 1;
+	background-color: transparent !important;
+	cursor: pointer;
+}
+
+.topic-orderby-icon {
+	position: relative;
+	vertical-align: middle;
+	top: 0.25rem;
+	right: 0.75rem;
+	z-index: 0;
+	cursor: pointer;
+}
+
+.topic-paging {
+	position: absolute;
+	right: 2%;
+	top: 50%;
+	@include transform(translateY(-50%));
+}
+
+.topic-paging-page {
+	padding: 0 0.5rem;
+	margin: 0 0.1rem;
+	border: 0.05rem solid $color-border;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	background-color: white;
+	@include transition(background-color, 0.25s);
+	cursor: pointer;
+	&:hover {
+		background-color: $color-hover;
+	}
+}
+
+@media screen and (min-width: 75em) {
+	.topicposts-container {
+		/* width: calc(50% - 0.25rem); */
+		margin-right: 0.25rem;
+		/* float: left; */
+	}
+}
+
+.topic-container > .venue-container {
+	width: 100%;
+}
+
+@media screen and (max-width: 75em) {
+	.topic-container > .venue-container {
+		margin-top: 3rem;
+	}
+}
+
+@media screen and (min-width: 75em) {
+	.topic-container > .venue-container {
+		width: calc(50% - 0.25rem);
+		margin-left: 0.25rem;
+		float: left;
+	}
+}
+
+.postlist-container {
+	position: relative;
+	margin-top: 10px;
+}
+@media screen and (max-width: 40em) {
+	.postlist-container {
+		min-width: 10rem;
+	}
+}
+@media screen and (min-width: 30em) {
+	.postlist-container {
+		min-width: 20rem;
+	}
+}
+
+.postlist-container a {
+	text-decoration: none;
+}
+
+.topic-source-link {
+	height: 2.5rem;
+	background-color: $color-primary;
+	border-bottom: 0.05rem solid $color-border;
+	border-left: 0.05rem solid $color-border;
+	border-right: 0.05rem solid $color-border;
+	box-sizing: border-box;
+	border-bottom-left-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+
+.topic-source-link-text {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	@include transform(translate(-50%, -50%));
+	font-family: $font-menu;
+	color: white;
+	text-align: center;
+}
+
+.topic-form {
+	position: relative;
+	background-color: $color-hover;
+	border: 0.05rem solid $color-border;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	margin-top: 0.5rem;
+}
+
+.topic-textarea-container {
+	position: relative;
+	padding: 0.25rem;
+}
+
+.topic-spinner {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index: 100;
+}
+
+.topic-textarea {
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+}
+/* @media screen and (max-width: 40em) {
+  .topic-textarea{
+    width: 98%;
+  }
+} */
+
+.topic-textarea-bottom-container {
+	display: inline-block;
+	position: relative;
+	min-height: 1.5rem;
+	width: 100%;
+}
+
+.topic-uploadphoto-button-wrapper {
+	position: relative;
+	top: 0.25rem;
+	margin-left: 1.25rem;
+	float: left;
+	/* float: left; */
+	cursor: pointer !important;
+}
+
+/* .topic-uploadphoto-button-wrapper p {
+  float: right;
+  font-size: 0.75rem;
+  display: block;
+  margin-left: 0.25rem;
+  margin-top: 0.25rem;
+  position: relative;
+}
+
+.topic-uploadphoto-button-wrapper input{
+  cursor: pointer;
+} */
+
+.topic-uploadphoto-preview-wrapper {
+	/* display: inline-block; */
+	position: relative;
+	margin-top: 2rem;
+	/* bottom: 0.5rem; */
+	width: 75%;
+}
+
+.topic-uploadphoto {
+	position: absolute;
+	visibility: hidden;
+	top: 0;
+	left: 0;
+}
+
+.topic-addspoiler-button {
+	display: inline;
+	position: relative;
+	margin: 0 1rem;
+}
+
+.topic-addspoiler-button {
+	color: $color-primary !important;
+	background-color: inherit !important;
+	border: 0.05rem solid $color-primary !important;
+}
+
+.topic-button-info-wrapper {
+	display: none;
+	position: relative;
+	top: 0.5rem;
+	left: 1.25rem;
+	font-size: 0.75rem;
+}
+
+.topic-uploadphoto-preview {
+	display: none;
+	position: relative;
+	margin: 0.5rem 1.25rem;
+	width: 100%;
+}
+
+.topic-uploadphoto-photopreview-wrapper {
+	width: 50%;
+	float: left;
+	margin-right: 0.5rem;
+}
+
+.topic-uploadphoto-photopreview {
+	width: 100%;
+}
+
+.topic-uploadphoto-info {
+	font-size: 0.75rem;
+	width: 45%;
+	float: left;
+	word-break: break-word;
+}
+
+.topic-button-send-wrapper {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	/* height: 2rem; */
+	width: 25%;
+}
+
+.topic-button-send-container {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 25%;
+}
+
+.topic-button-send {
+	position: relative;
+	right: 0;
+	float: right;
+	margin-bottom: 0.25rem;
+	margin-right: 0.5rem;
+	background-color: $color-primary !important;
+	color: $color-dirtywhite !important;
+}

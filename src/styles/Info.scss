@@ -1,0 +1,94 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+	-webkit-transition: $property $duration, $timing;
+	-moz-transition: $property $duration $timing;
+	-ms-transition: $property $duration $timing;
+	-o-transition: $property $duration $timing;
+	transition: $property $duration $timing;
+}
+
+@mixin transform($transforms...) {
+	$transform-list: join($transforms, null, space);
+
+	-webkit-transform: $transform-list;
+	-moz-transform: $transform-list;
+	-ms-transform: $transform-list;
+	-o-transform: $transform-list;
+	transform: $transform-list;
+}
+
+.info-topbar {
+	display: inline-block;
+	position: relative;
+	margin: 0.5rem 0;
+	left: 50%;
+	@include transform(translateX(-50%));
+	float: none;
+	padding: 0;
+	width: 100%;
+	list-style: none;
+	background-color: white;
+	border: 0.05rem solid $color-hover;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+}
+@media screen and (max-width: 40em) {
+	.info-topbar {
+		text-align: center;
+	}
+}
+
+.info-items-container {
+	display: inline-block;
+	position: relative;
+	left: 50%;
+	@include transform(translateX(-50%));
+}
+@media screen and (max-width: 40em) {
+	.info-items-container {
+		display: block;
+	}
+}
+
+.info-item {
+	color: #687776;
+	padding: 0 0.5rem;
+	line-height: 2rem;
+	float: left;
+	text-decoration: none;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	text-align: center;
+	cursor: pointer;
+	@include transition(all, 0.75s);
+	&:hover {
+		background-color: $color-hover;
+	}
+}
+@media screen and (max-width: 40em) {
+	.info-item {
+		float: none;
+	}
+}
+
+.info-item-active {
+	background-color: $color-active !important;
+	font-weight: bold;
+}
+
+.info-title {
+	font-weight: bold;
+}
+
+.info-text {
+	display: none;
+	background-color: white;
+	border: 0.05rem solid $color-hover;
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	padding: 0.5rem;
+}
+
+.info-text-active {
+	display: block !important;
+}
