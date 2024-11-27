@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="no-js" lang="tr">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Şallı Turna | İnteraktif Etkinlik ve Kültür-Sanat Portalı</title>
+        <meta
+            name="description"
+            content="Etrafındaki kültür-sanat etkinliklerinden haberdar ol. Takip et, hatırlatma al, paylaşımda bulun. İstanbul etkinlikleri, İzmir etkinlikleri, Ankara etkinlikleri, online etkinlikler ve kültür-sanat konuları burada."
+            data-react-helmet="true"
+        />
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+        />
+
+        <!-- Apple Touch Icons -->
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+        />
+
+        <!-- Manifest -->
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+
+        <!-- Windows Tiles -->
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="theme-color" content="#ffffff" />
+
+        <!-- General Fallback -->
+        <link rel="shortcut icon" href="/favicon.ico" />
+    </head>
+    <body>
+        <div id="root"></div>
+        <script defer fetchpriority="high" src="/bundles/main.js"></script>
+        <script
+            defer
+            fetchpriority="high"
+            src="/bundles/react-vendor.js"
+        ></script>
+        <script
+            async
+            defer
+            fetchpriority="lowest"
+            src="/bundles/vendors.js"
+        ></script>
+        <link rel="preload" href="/bundles/react-vendor.js" as="script" />
+        <link rel="preload" href="/bundles/main.js" as="script" />
+    </body>
+</html>

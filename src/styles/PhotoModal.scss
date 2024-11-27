@@ -1,0 +1,62 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+.modalphoto-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 101;
+}
+
+.modalphoto-photo-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    @include transform(translate(-50%, -50%));
+    width: 66.7%;
+    max-height: 95%;
+    overflow: auto;
+    border: 0.05rem solid transparent;
+    border-radius: 0.2rem;
+    @include transition(height, 0.75s);
+}
+@media screen and (max-width: $media-bp-medium) {
+    .modalphoto-photo-container {
+        width: 96% !important;
+        max-height: 95%;
+        padding: 2%;
+    }
+}
+
+.modalphoto-close {
+    position: relative;
+    top: 0;
+    right: 0%;
+    float: right;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10000;
+}
+.modalphoto-close:after {
+    content: '✖';
+}

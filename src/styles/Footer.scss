@@ -1,0 +1,106 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+.footer-container {
+    display: flex;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    margin-top: 4rem;
+    background-color: white;
+    border-top: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.footer-group-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-group {
+    display: inline-flex;
+    text-align: center;
+    vertical-align: middle;
+    flex-direction: column;
+    align-items: center;
+    min-width: 5rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .footer-group {
+        min-width: 10rem;
+    }
+}
+
+.footer-group a {
+    color: $color-primary;
+    text-decoration: none;
+}
+
+.footer-group-socialmedia {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.footer-item {
+    display: block;
+    padding: 0.5rem 0;
+    width: 12rem;
+    font-size: 0.9rem;
+    @include transition(background-color, 0.25s);
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+@media screen and (max-width: $media-bp-medium) {
+    .footer-item {
+        font-size: 0.75rem;
+    }
+}
+
+.footer-socialmedia-icon {
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    margin: 0.5rem 0;
+}
+@media screen and (max-width: $media-bp-medium) {
+    .footer-socialmedia-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+.footer-socialmedia-icon-insta {
+    background: url('../assets/insta-min.webp') no-repeat top center;
+    background-size: cover;
+}
+.footer-socialmedia-icon-twitter {
+    background: url('../assets/twitter-min.webp') no-repeat top center;
+    background-size: cover;
+}
+
+.footer-owner {
+    display: block;
+    position: relative;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.footer-owner-link {
+    color: $color-link;
+    text-decoration: none;
+}

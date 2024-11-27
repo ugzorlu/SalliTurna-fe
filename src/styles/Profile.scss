@@ -1,0 +1,274 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin animation(
+    $name,
+    $duration,
+    $timing: ease,
+    $delay: 0s,
+    $iterationcount: 1
+) {
+    -webkit-animation: $name $duration, $timing, $delay $iterationcount;
+    -moz-animation: $name $duration $timing $delay $iterationcount;
+    -ms-animation: $name $duration $timing $delay $iterationcount;
+    -o-animation: $name $duration $timing $delay $iterationcount;
+    animation: $name $duration $timing $delay $iterationcount;
+}
+
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+@mixin appearance($value) {
+    -webkit-appearance: $value;
+    -moz-appearance: $value;
+    -ms-appearance: $value;
+    -o-appearance: $value;
+    appearance: $value;
+}
+
+@mixin textalignlast($value) {
+    -webkit-text-align-last: $value;
+    -moz-text-align-last: $value;
+    -ms-text-align-last: $value;
+    -o-text-align-last: $value;
+    text-align-last: $value;
+}
+
+.profile-container {
+    width: 95%;
+    max-width: 40rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .profile-container {
+        min-width: 20rem;
+        min-height: 100%;
+        margin: 0 auto;
+    }
+}
+
+.profile-user-container {
+    text-align: center;
+}
+
+.profile-photo {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    margin-top: 0.5rem;
+    width: 80px;
+    height: 80px;
+    border: 0.05rem solid $color-border;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: white;
+    cursor: pointer;
+}
+.profile-photo-skeleton {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    margin-top: 0.5rem;
+    width: 80px;
+    height: 80px;
+    border: 0.05rem solid $color-border;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+}
+
+.profile-btn-addphoto-container {
+    position: relative;
+    margin: 0.5rem auto;
+    height: 2rem;
+}
+
+.profile-addphoto {
+    height: 100%;
+    visibility: hidden;
+}
+
+.profile-btn-addphoto {
+    position: absolute;
+    left: 50%;
+    @include transform(translateX(-50%));
+    height: 100%;
+    width: 12rem;
+    padding-top: 0.25rem;
+    @include appearance(none);
+    border: 0.05rem solid $color-border;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-family: $font-menu;
+    border-radius: 0.2rem;
+    background-color: $color-primary;
+    color: $color-dirtywhite;
+    cursor: pointer;
+}
+
+.profile-username {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    font-size: 1.5rem;
+}
+.profile-username-skeleton {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    width: 5rem;
+    line-height: 1.5rem;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.profile-followedhashtags-container,
+.profile-reminderevents-container {
+    margin: 1.5rem 0;
+}
+
+.profile-followedhashtag,
+.profile-reminderevents {
+    display: inline-block;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem;
+    @include transition(background-color, 0.25s);
+    cursor: pointer;
+    &:before {
+        content: '+\00a0';
+        color: $color-primary;
+        font-weight: bold;
+    }
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.profile-posts-container,
+.profile-postarea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-selectcriteria-container {
+    display: flex;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    background: white;
+}
+
+.profile-selectcriteria-dropdown {
+    display: inline-block;
+    position: relative;
+    padding: 0rem 1rem 0 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: inherit;
+    z-index: 1;
+    background-color: transparent !important;
+    @include textalignlast(center);
+    cursor: pointer;
+}
+
+.profile-selectcriteria-icon {
+    position: relative;
+    right: 0.75rem;
+    width: 0.75rem;
+    height: auto;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.profile-latestposts-title {
+    font-weight: bold;
+}
+
+.profile-latestposts-post {
+    color: inherit;
+}
+
+.profile-latestposts-posts a {
+    text-decoration: none;
+}
+
+.profile-latestposts-posts .singlepost-container {
+    position: relative;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+
+.profile-singlepost-container {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.profile-posts-button-showmore-container {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.profile-posts-button-showmore {
+    position: relative;
+    height: 2rem;
+    width: 12rem;
+}
+
+.profile-posts-notfound-container {
+    display: inline-block;
+    position: relative;
+    margin: 0.5rem auto;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    background: white;
+}
+
+.profile-posts-notfound {
+    position: relative;
+    padding: 1rem;
+    text-align: center;
+}

@@ -1,0 +1,116 @@
+@use 'global-variables' as *;
+@mixin appearance($value) {
+    -webkit-appearance: $value;
+    -moz-appearance: $value;
+    -ms-appearance: $value;
+    -o-appearance: $value;
+    appearance: $value;
+}
+
+.cookiebanner-container {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    border-top: 0.05rem solid $color-border;
+    background-color: white;
+    z-index: 99;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .cookiebanner-container {
+        height: 20%;
+    }
+}
+
+.cookiebanner-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+@media screen and (min-width: $media-bp-large) {
+    .cookiebanner-wrapper {
+        flex-direction: row;
+    }
+}
+
+.cookie-text-wrapper {
+    display: flex;
+    height: 50%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    align-items: center;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .cookie-text-wrapper {
+        height: 100%;
+        padding: 1rem 3rem;
+    }
+}
+
+.cookie-text {
+    font-size: 0.8rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .cookie-text {
+        font-size: 1rem;
+    }
+}
+
+.cookie-link {
+    color: $color-link;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cookie-buttons-container {
+    display: flex;
+    height: 50%;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (min-width: $media-bp-large) {
+    .cookie-buttons-container {
+        height: 100%;
+    }
+}
+
+.cookie-button-wrapper {
+    display: flex;
+    height: 3rem;
+    width: 10rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.cookie-button {
+    padding: 0.5rem;
+    @include appearance(none);
+    border: 0.05rem solid $color-border;
+    font-family: $font-menu;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    color: $color-dirtywhite;
+}
+
+.cookie-button-accept {
+    background-color: $color-accept;
+}
+
+.cookie-button-reject {
+    background-color: $color-reject;
+}
+
+.cookie-closebutton {
+    position: absolute;
+    top: 0;
+    right: 1%;
+    color: $color-primary;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10000;
+    &:after {
+        content: '✖';
+    }
+}

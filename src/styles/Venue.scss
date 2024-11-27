@@ -1,0 +1,136 @@
+@use 'global-variables' as *;
+@mixin animation(
+    $name,
+    $duration,
+    $timing: ease,
+    $delay: 0s,
+    $iterationcount: 1
+) {
+    -webkit-animation: $name $duration, $timing, $delay $iterationcount;
+    -moz-animation: $name $duration $timing $delay $iterationcount;
+    -ms-animation: $name $duration $timing $delay $iterationcount;
+    -o-animation: $name $duration $timing $delay $iterationcount;
+    animation: $name $duration $timing $delay $iterationcount;
+}
+
+.venue-container {
+    width: 95%;
+    min-width: 20rem;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .venue-container {
+        width: 100%;
+    }
+}
+
+.venue-title-container {
+    position: relative;
+    margin-top: 0.5rem;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    color: $color-softtext;
+}
+
+.venue-title-wrapper {
+    padding: 0.25rem 1rem;
+    text-align: center;
+}
+
+.venue-title-wrapper > a {
+    text-decoration: none;
+    color: $color-softtext;
+}
+
+.venue-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.venue-title-skeleton {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0.25rem;
+    width: 70%;
+    height: 1.5rem;
+    padding: 0.25rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.venue-location-container {
+    position: relative;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    color: $color-softtext;
+}
+
+.venue-location {
+    display: flex;
+}
+
+.venue-location iframe {
+    width: 100%;
+    height: 15rem;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.venue-text-container {
+    position: relative;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    color: $color-softtext;
+}
+
+.venue-text-wrapper {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.venue-text-wrapper > a {
+    text-decoration: none;
+    color: $color-softtext;
+}
+
+.venue-text {
+    margin: 0;
+}
+
+.venue-text-skeleton {
+    font-size: 1.5rem;
+    margin: 0.25rem;
+    width: 70%;
+    height: 1.5rem;
+    padding: 0.25rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}

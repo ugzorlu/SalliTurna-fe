@@ -1,0 +1,82 @@
+@use 'global-variables' as *;
+
+.museumlist-container {
+    width: 95%;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+
+.museum-container {
+    background-color: white;
+    text-align: center;
+}
+
+.museum-title {
+    margin: 1rem;
+    padding: 1rem 0 0;
+    font-size: 1.5rem;
+}
+
+.museum-text {
+    margin: 1rem 1rem 0;
+    padding: 1rem 0.25rem;
+    text-align: justify;
+}
+
+.museumlist-container > a {
+    text-decoration: none !important;
+}
+
+.museumlist-container img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+}
+
+.movielist-container {
+    width: 95%;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+
+.movielist-title {
+    margin: 1rem 1rem 0;
+    padding: 1rem 0 0;
+    font-size: 150%;
+    text-align: center;
+}
+
+.movie-container {
+    background-color: white;
+    text-align: center;
+}
+
+.movie-title {
+    margin: 1rem;
+    padding: 1rem 0 0;
+    font-size: 150%;
+}
+
+.movie-tag {
+    margin: 1rem 1rem 0;
+    padding: 0 0.25rem;
+    font-size: 0.9rem;
+    text-align: left;
+    font-style: italic;
+}
+
+.movie-text {
+    margin: 1rem 1rem 0;
+    padding: 1rem 0.25rem;
+    text-align: justify;
+}
+
+.movielist-container > a {
+    text-decoration: none !important;
+}
+
+.movielist-container img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+}

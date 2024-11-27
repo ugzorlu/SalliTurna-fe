@@ -1,0 +1,98 @@
+@use 'global-variables' as *;
+.sendfeedback-container {
+    position: relative;
+    width: 95%;
+    max-width: 40rem;
+    height: 32rem;
+    margin-top: 0.75rem;
+    background-color: $color-hover;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .sendfeedback-container {
+        width: 100%;
+        min-width: 20rem;
+    }
+}
+
+.sendfeedback-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sendfeedback-text {
+    padding: 1rem;
+}
+
+.sendfeedback-email-wrapper,
+.sendfeedback-title-wrapper,
+.sendfeedback-feedback-wrapper {
+    position: relative;
+    margin: 0.5rem 1rem;
+}
+
+.sendfeedback-email,
+.sendfeedback-title {
+    width: 100%;
+    height: 3rem;
+}
+
+.sendfeedback-feedback {
+    width: 100%;
+}
+
+.sendfeedback-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    min-height: 2.5rem;
+}
+@media screen and (max-width: 40em) {
+    .sendfeedback-buttons-container {
+        flex-direction: column;
+    }
+}
+
+.sendfeedback-buttons-wrapper {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0.25rem 0.75rem;
+    flex-direction: row;
+    align-items: center;
+}
+
+.sendfeedback-buttons-wrapper-right {
+    justify-content: flex-end;
+}
+
+.sendfeedback-button-wrapper {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0.5rem 1rem;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .sendfeedback-button-wrapper {
+        margin: 0 0.25rem;
+        justify-content: flex-end;
+    }
+}
+
+.sendfeedback-button-send {
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    background-color: $color-primary !important;
+    color: $color-dirtywhite !important;
+    font-size: 0.9rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .sendfeedback-button-send {
+        width: 7.5rem;
+    }
+}

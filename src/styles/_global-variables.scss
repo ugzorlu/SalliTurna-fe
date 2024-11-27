@@ -1,0 +1,26 @@
+/* Color Palette: https://www.design-seeds.com/in-nature/creatures/color-profile/
+ Font Family: https://fonts.google.com/specimen/Saira?selection.family=Saira 
+ Logo Font: Agbalumo */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700|Saira:400,600,700);
+/*Fonts*/
+$font-menu: 'Saira', sans-serif;
+$font-body: 'Open Sans', sans-serif;
+
+/*Media query breakpoints*/
+$media-bp-small: 18em;
+$media-bp-medium: 36em;
+$media-bp-large: 54em;
+$media-bp-xlarge: 72em;
+
+/*Color palette*/
+$color-primary: #2f2f3c;
+$color-dirtywhite: #e6e2e3;
+$color-hover: #f7f2ea;
+$color-active: #dcede8;
+$color-border: #badbd1;
+$color-live: #ff6347;
+$color-free: #2e8b57;
+$color-softtext: #5e5e5e;
+$color-accept: #2e8b57;
+$color-reject: #c23a22;
+$color-link: #5b0e00;

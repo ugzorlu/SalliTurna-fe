@@ -1,0 +1,813 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin animation(
+    $name,
+    $duration,
+    $timing: ease,
+    $delay: 0s,
+    $iterationcount: 1
+) {
+    -webkit-animation: $name $duration, $timing, $delay $iterationcount;
+    -moz-animation: $name $duration $timing $delay $iterationcount;
+    -ms-animation: $name $duration $timing $delay $iterationcount;
+    -o-animation: $name $duration $timing $delay $iterationcount;
+    animation: $name $duration $timing $delay $iterationcount;
+}
+
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+@media screen and (max-width: $media-bp-large) {
+    .leftframe-container-active {
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 100;
+        width: 100%;
+        min-height: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
+
+.leftframe {
+    position: fixed;
+    left: -90%;
+    top: 0;
+    width: 90%;
+    min-width: 15rem;
+    background-color: $color-dirtywhite;
+    @include transition(left, 0.25s, ease-out);
+    z-index: 10;
+}
+
+@media screen and (min-width: $media-bp-large) {
+    .leftframe {
+        position: relative;
+        left: 0;
+        top: 2rem;
+        float: left;
+        width: 20rem;
+        margin: 0.75rem 0.25rem 0.75rem 1.25rem;
+        padding: 0.5rem 0;
+        z-index: 99;
+    }
+}
+
+.leftframe-active {
+    position: relative;
+    left: 0;
+    min-height: 75%;
+    margin: 0;
+    padding: 0.25rem 0;
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+}
+
+@media screen and (min-width: $media-bp-medium) and (max-width: $media-bp-large) {
+    .leftframe-active {
+        width: 50%;
+    }
+}
+
+.leftframe-categories-container {
+    position: relative;
+    width: 95%;
+    margin: 0.25rem auto 0;
+    background: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+}
+
+.categories {
+    position: relative;
+    text-align: center;
+}
+
+.category {
+    display: inline-block;
+    position: relative;
+    width: calc(50%);
+    padding: 0.5rem;
+    border: 0.05rem solid $color-border;
+    box-sizing: border-box;
+    overflow: hidden;
+    vertical-align: middle;
+    @include transition(background-color, 0.25s);
+    @include transition(font-weight, 0.25s);
+    cursor: pointer;
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.category:first-child {
+    border-right: none;
+}
+
+.category-active {
+    font-weight: bold;
+    background-color: $color-active;
+}
+
+.leftframe-search-container {
+    display: flex;
+    position: relative;
+    width: 95%;
+    padding: 0.5rem 1.5rem;
+    margin: 0.25rem auto 0;
+    text-align: center;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.leftframe-search {
+    border-bottom: 0.05rem solid $color-border;
+    box-sizing: border-box;
+}
+
+.leftframe-search-close {
+    position: absolute;
+    top: 0;
+    right: 0.5rem;
+    float: right;
+    color: $color-primary;
+    cursor: pointer;
+    &:after {
+        content: '✖';
+    }
+}
+
+.leftframe-search-notfound {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.leftframe-topics-title {
+    position: relative;
+    margin: 0.75rem 0.75rem 0;
+    color: $color-primary;
+    text-align: center;
+}
+
+.leftframe-topics-container {
+    position: relative;
+    width: 95%;
+    margin: 0.25rem auto;
+    background: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    margin-top: 0.5rem;
+}
+
+.leftframe-topics-dateinfo-container {
+    display: flex;
+    position: relative;
+    width: 95%;
+    margin: 0.25rem auto 0;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.react-datepicker-wrapper {
+    display: block;
+}
+
+.leftframe-topics-dateinfo-close-icon {
+    right: 10% !important;
+    z-index: 100 !important;
+    &:after {
+        width: 1rem !important;
+        height: 1rem !important;
+        padding: 0.1rem !important;
+        background-color: $color-primary !important;
+    }
+}
+
+.leftframe-topics-dateinfo-popper {
+    @include transform(translate(0, 28px));
+    width: 100% !important;
+    z-index: 2 !important;
+}
+
+.react-datepicker {
+    width: 100% !important;
+}
+
+.react-datepicker__month-container {
+    float: none !important;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__month-text:hover,
+.react-datepicker__quarter-text:hover {
+    background-color: $color-hover !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range {
+    color: black !important;
+    background-color: $color-active !important;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected {
+    color: black !important;
+    background-color: $color-active !important;
+}
+
+.leftframe-topics-cityinfo-container,
+.leftframe-topics-categoryinfo-container {
+    display: flex;
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.leftframe-topics-dateinfo-wrapper,
+.leftframe-topics-cityinfo-wrapper,
+.leftframe-topics-categoryinfo-wrapper {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    min-height: 1.5rem;
+}
+
+.leftframe-topics-dateinfo-wrapper {
+    display: inline-block;
+    position: relative;
+    margin: 0.25rem 0;
+    padding: 0.25rem 0;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    text-align-last: center;
+    cursor: pointer;
+}
+
+.leftframe-topics-dateinfo-icon-wrapper,
+.leftframe-topics-cityinfo-icon-wrapper,
+.leftframe-topics-categoryinfo-icon-wrapper {
+    display: flex;
+    position: absolute;
+    width: 15%;
+    height: auto;
+    z-index: 1;
+    justify-content: center;
+}
+
+.leftframe-topics-dateinfo-icon,
+.leftframe-topics-cityinfo-icon,
+.leftframe-topics-categoryinfo-icon {
+    width: 1rem;
+    height: auto;
+}
+
+.leftframe-topics-cityinfo,
+.leftframe-topics-categoryinfo {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin: 0.25rem 0;
+    background-color: white;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    text-align: center;
+    text-align-last: center;
+    cursor: pointer;
+}
+.leftframe-topics-cityinfo:hover {
+    box-shadow: none !important;
+}
+
+.leftframe-topics-cityinfo-dropdown-selected,
+.leftframe-topics-categoryinfo-dropdown-selected {
+    display: inline-block;
+}
+
+.leftframe-topics-cityinfo-dropdown,
+.leftframe-topics-categoryinfo-dropdown {
+    position: absolute;
+    width: 100%;
+    margin: 0.25rem 0;
+    background-color: white;
+    border: 0.1rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    text-align: center;
+    text-align-last: center;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.leftframe-topics-city-selected,
+.leftframe-topics-category-selected {
+    padding: 0.25rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.leftframe-topics-city,
+.leftframe-topics-category {
+    padding: 0.5rem;
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.leftframe-topics-dateinfo-dropdownicon-container,
+.leftframe-topics-cityinfo-dropdownicon-container,
+.leftframe-topics-categoryinfo-dropdownicon-container {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 15%;
+    @include transform(translateY(-50%));
+    justify-content: center;
+    pointer-events: none;
+}
+
+.leftframe-topics-dateinfo-dropdownicon,
+.leftframe-topics-cityinfo-dropdownicon,
+.leftframe-topics-categoryinfo-dropdownicon {
+    position: relative;
+    width: 1rem;
+}
+
+.leftframe-topics-dateinfo-text {
+    padding-right: 1rem;
+}
+
+.leftframe-topic-wrapper {
+    cursor: pointer;
+    @include transition(background-color, 0.25s);
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.leftframe-subject-wrapper {
+    max-height: 5rem;
+    overflow: hidden;
+}
+
+.leftframe-topic-wrapper-active {
+    font-weight: bold;
+    background-color: $color-active !important;
+}
+
+.leftframe-topic-wrapper a {
+    display: block;
+}
+
+// .leftframe-rekl-container {
+// 	max-height: 175px;
+// }
+
+// .leftframe-rekl-container .adsbygoogle {
+// 	max-height: 175px;
+// }
+
+.leftframe-topic-notfound {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.leftframe-topic-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    color: $color-softtext;
+    padding: 0.25rem 0;
+    border-bottom: 0.05rem solid $color-active;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    align-content: stretch;
+}
+
+.leftframe-event-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    color: $color-softtext;
+    padding: 0.5rem 0;
+    border-bottom: 0.05rem solid $color-active;
+    box-sizing: border-box;
+}
+
+.leftframe-addtopic-wrapper {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    border-top: 0.05rem solid $color-border;
+    box-sizing: border-box;
+}
+
+.leftframe-addtopic-wrapper .leftframe-topic-container {
+    height: 3rem;
+}
+
+.leftframe-event,
+.leftframe-event-skeleton {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.leftframe-event-photo-container,
+.leftframe-event-photo-container-skeleton {
+    flex-basis: 25%;
+    padding: 0.25rem 0.5rem;
+}
+
+.leftframe-event-photo-wrapper {
+    display: flex;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+    min-width: 4rem;
+    min-height: 4rem;
+}
+
+.leftframe-event-photo-wrapper-skeleton {
+    display: flex;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    min-width: 4rem;
+    min-height: 4rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+}
+
+.leftframe-event-text-container,
+.leftframe-event-text-container-skeleton {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 75%;
+}
+
+.leftframe-event-date {
+    position: relative;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem 0;
+}
+.leftframe-event-date-skeleton {
+    height: 1.25rem;
+    margin: 0.25rem 0;
+    width: 75%;
+    padding: 0.25rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.leftframe-event-title {
+    position: relative;
+    padding: 0 0.75rem 0.5rem;
+    word-break: break-word;
+}
+
+.leftframe-event-title-skeleton {
+    height: 1.75rem;
+    width: 90%;
+    padding: 0.25rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.leftframe-topic-title {
+    position: relative;
+    float: left;
+    clear: right;
+    padding: 0.25rem 0.75rem;
+    max-width: 75%;
+}
+.leftframe-topic-title-skeleton {
+    position: relative;
+    left: 1rem;
+    float: left;
+    clear: both;
+    padding: 0.25rem 0.75rem;
+    width: 70%;
+    height: 1.5rem;
+    padding: 0.25rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.leftframe-event-live {
+    display: inline-block;
+    position: relative;
+    margin-left: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    text-align: center;
+    background-color: $color-live;
+    color: white;
+    border-radius: 0.2rem;
+    max-width: 5rem;
+}
+
+.leftframe-event-live-icon {
+    display: inline-block;
+    background-color: white;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 0.75rem;
+    border: 0.05rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.6);
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        @include animation(live, 2s ease-in-out 0s infinite);
+    }
+}
+
+@-webkit-keyframes live {
+    0% {
+        @include transform(scale(1, 1));
+    }
+    100% {
+        @include transform(scale(3.5, 3.5));
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+@-moz-keyframes live {
+    0% {
+        @include transform(scale(1, 1));
+    }
+    100% {
+        @include transform(scale(3.5, 3.5));
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+@-ms-keyframes live {
+    0% {
+        @include transform(scale(1, 1));
+    }
+    100% {
+        @include transform(scale(3.5, 3.5));
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+@keyframes live {
+    0% {
+        @include transform(scale(1, 1));
+    }
+    100% {
+        @include transform(scale(3.5, 3.5));
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+
+.leftframe-event-free {
+    display: inline-block;
+    position: relative;
+    margin-left: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    background-color: $color-free;
+    color: white;
+    border-radius: 0.2rem;
+    max-width: 4rem;
+}
+
+.leftframe-topic-postcount {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-right: 0.75rem;
+    @include transform(translateY(-50%));
+}
+.leftframe-topic-postcount-skeleton {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-right: 0.75rem;
+    height: 1rem;
+    @include transform(translateY(-50%));
+    background-color: $color-dirtywhite;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    background: linear-gradient(
+        90deg,
+        $color-dirtywhite 0%,
+        whitesmoke 50%,
+        $color-dirtywhite 100%
+    );
+    background-size: 99% 100%, cover;
+    @include animation(loading, 2s infinite);
+    &:before {
+        content: '\00a0';
+    }
+}
+
+.leftframe-paging-container {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    margin: 0.5rem 0;
+    width: 95%;
+}
+
+.leftframe-paging {
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 75%;
+    text-align: center;
+}
+
+.leftframe-paging-page {
+    flex-basis: 20%;
+    border: 0.05rem solid $color-border;
+    box-sizing: border-box;
+    border-radius: 0.2rem;
+    background-color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.leftframe-paging-previouspage,
+.leftframe-paging-nextpage {
+    font-weight: bold;
+}
+
+.leftframe-paging-finalpage {
+    margin: auto 0.25rem;
+}
+
+.leftframe-paging-currentpage-container {
+    display: flex;
+    position: relative;
+    flex-basis: 30%;
+    border: 0.05rem solid $color-border;
+    box-sizing: border-box;
+    border-radius: 0.2rem;
+    background-color: white;
+    cursor: pointer;
+    margin: auto 0.25rem;
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.leftframe-paging-currentpage {
+    width: 100%;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    cursor: inherit;
+    border: none !important;
+    padding: 0 0 0 1rem !important;
+    color: black !important;
+}
+
+.leftframe-paging-currentpage > option {
+    cursor: pointer;
+}
+
+.leftframe-paging-page-seperator {
+    flex-basis: 10%;
+}
+
+.leftframe-paging-currentpage-icon-container {
+    position: absolute;
+    top: 0rem;
+    right: 0.5rem;
+    width: 20%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.leftframe-paging-currentpage-icon {
+    position: relative;
+    width: 0.8rem;
+}
+
+.leftframe-addtopic-container {
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+}
+
+.leftframe-toggle-button-container {
+    position: absolute;
+    top: 50vh;
+    @include transition(top, 0.25s, ease-out);
+    left: 99.9%;
+    width: 1.5rem;
+    padding: 1.5rem 0.25rem;
+    border: 0.05rem solid #43816e;
+    border-left: 0;
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+    box-sizing: border-box;
+    background-color: $color-dirtywhite;
+    cursor: pointer;
+}
+@media screen and (min-width: $media-bp-large) {
+    .leftframe-toggle-button-container {
+        display: none;
+    }
+}
+
+.leftframe-active .leftframe-toggle-button-container {
+    top: 50%;
+    padding: 1.5rem 0.25rem;
+}
+
+.leftframe-active .leftframe-toggle-button-wrapper {
+    position: relative;
+    @include transform(scaleX(-1));
+}
+
+.leftframe-toggle-button {
+    color: $color-softtext;
+}

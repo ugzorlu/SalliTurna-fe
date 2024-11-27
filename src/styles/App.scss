@@ -1,0 +1,335 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+@mixin appearance($value) {
+    -webkit-appearance: $value;
+    -moz-appearance: $value;
+    -ms-appearance: $value;
+    -o-appearance: $value;
+    appearance: $value;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    width: 100%;
+    min-width: 16rem;
+    margin: 0;
+    padding: 0;
+    font-family: $font-body;
+    font-weight: normal;
+    color: $color-softtext;
+    background-color: $color-dirtywhite;
+    line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin-bottom: 0.5rem;
+    font-family: $font-menu;
+    font-weight: bold;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h1,
+.h1 {
+    font-size: 2.5rem;
+}
+
+h2,
+.h2 {
+    font-size: 2rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.75rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.5rem;
+}
+
+h5,
+.h5 {
+    font-size: 1.25rem;
+}
+
+h6,
+.h6 {
+    font-size: 1rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    font-style: italic;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    font-style: italic;
+}
+:-ms-input-placeholder {
+    font-style: italic;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea,
+select {
+    display: block;
+    @include appearance(none);
+    font-size: 1rem;
+    border: 0.05rem solid $color-border;
+    border-radius: 3px;
+    box-shadow: inset 0 0.05rem 2px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    box-sizing: border-box;
+    &:hover {
+        background-color: white;
+        box-shadow: 0 0 3px $color-live;
+        outline: none;
+    }
+    &:focus {
+        background-color: white;
+        box-shadow: 0 0 3px $color-live;
+        outline: none;
+    }
+}
+
+input[type='text']:focus::-webkit-input-placeholder,
+input[type='email']:focus::-webkit-input-placeholder,
+input[type='password']:focus::-webkit-input-placeholder,
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+input[type='text']:focus:-moz-placeholder,
+input[type='email']:focus:-moz-placeholder,
+input[type='password']:focus:-moz-placeholder,
+textarea:focus:-moz-placeholder {
+    color: transparent;
+}
+input[type='text']:focus::-moz-placeholder,
+input[type='email']:focus::-moz-placeholder,
+input[type='password']:focus::-moz-placeholder,
+textarea:focus::-moz-placeholder {
+    color: transparent;
+}
+input[type='text']:focus:-ms-input-placeholder,
+input[type='email']:focus:-ms-input-placeholder,
+input[type='password']:focus::-moz-placeholder,
+textarea:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus {
+    padding-top: 2px !important;
+}
+
+label {
+    display: inline-block;
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 12px);
+    left: 0px;
+    text-align: left;
+    padding-left: 12px;
+    background-color: $color-live;
+    color: white;
+    opacity: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    @include transition(opacity, 0.75s);
+    line-height: 1.2;
+}
+
+textarea:focus {
+    padding-top: 10px;
+}
+
+input:focus + label,
+textarea:focus + label {
+    visibility: visible;
+    opacity: 1;
+    @include transition(opacity, 0.75s);
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: $font-body;
+    line-height: 1.15;
+    margin: 0;
+}
+
+button,
+input {
+    overflow: visible;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+select {
+    text-indent: 0.01px;
+    text-overflow: '';
+}
+
+input,
+button,
+select,
+textarea {
+    line-height: inherit;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+textarea,
+select {
+    @include appearance(none);
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-shadow: inset 0 0.05rem 2px rgba(0, 0, 0, 0.1);
+    display: block;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+input[type='email'] {
+    text-transform: lowercase !important;
+}
+input[type='email']::-webkit-input-placeholder {
+    /* WebKit browsers */
+    text-transform: none;
+}
+input[type='email']:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    text-transform: none;
+}
+input[type='email']::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    text-transform: none;
+}
+input[type='email']:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    text-transform: none;
+}
+input[type='email']::placeholder {
+    /* Recent browsers */
+    text-transform: none;
+}
+
+input[type='text']:hover,
+input[type='text']:focus,
+input[type='email']:hover,
+input[type='email']:focus,
+input[type='password']:hover,
+input[type='password']:focus,
+textarea:hover,
+textarea:focus {
+    background-color: white;
+    box-shadow: 0 0 3px #d6909c;
+    outline: none;
+}
+
+input[type='submit'],
+input[type='button'] {
+    @include appearance(none);
+    border: 0.05rem solid $color-border;
+    font-family: $font-menu;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    background-color: $color-primary;
+    color: $color-dirtywhite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 0% 0, 0 0;
+    }
+    100% {
+        background-position: 10000% 0, 0 0;
+    }
+}
+@-webkit-keyframes loading {
+    0% {
+        background-position: 0% 0, 0 0;
+    }
+    100% {
+        background-position: 10000% 0, 0 0;
+    }
+}
+
+.content {
+    display: flex;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    min-height: 65rem;
+    padding-top: 2.5rem;
+    justify-content: center;
+}
+@media screen and (min-width: $media-bp-large) {
+    .content {
+        width: calc(100% - 21.5rem);
+    }
+}
+
+// .adsbygoogle {
+// 	display: block;
+// 	text-align: center;
+// }

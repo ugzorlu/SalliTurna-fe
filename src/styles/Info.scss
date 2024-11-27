@@ -1,0 +1,86 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+.info-container {
+    min-width: 0;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .info-container {
+        min-width: 20rem;
+    }
+}
+
+.info-topbar {
+    display: flex;
+    position: relative;
+    margin: 0.5rem 0;
+    padding: 0;
+    list-style: none;
+    background-color: white;
+    border: 0.05rem solid $color-hover;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+}
+
+.info-items-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (min-width: $media-bp-xlarge) {
+    .info-items-wrapper {
+        margin: 0 10rem;
+    }
+}
+
+.info-item {
+    display: flex;
+    width: 33.33%;
+    height: 100%;
+    color: #687776;
+    padding: 0 0.5rem;
+    line-height: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    @include transition(all, 0.75s);
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+@media screen and (min-width: $media-bp-medium) {
+    .info-item {
+        line-height: 2rem;
+    }
+}
+
+.info-item-active {
+    background-color: $color-active;
+    font-weight: bold;
+}
+
+.info-title {
+    font-weight: bold;
+}
+
+.info-text {
+    display: none;
+    background-color: white;
+    border: 0.05rem solid $color-hover;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    padding: 0.5rem;
+}
+
+.info-text-active {
+    display: block !important;
+}

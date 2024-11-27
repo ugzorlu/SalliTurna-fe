@@ -1,0 +1,293 @@
+@use 'global-variables' as *;
+@mixin transition($property, $duration, $timing: ease) {
+    -webkit-transition: $property $duration, $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+.inbox-container {
+    width: 95%;
+}
+@media screen and (min-width: $media-bp-large) {
+    .inbox-container {
+        width: 100%;
+    }
+}
+
+.inbox-users-container {
+    position: relative;
+    left: 0;
+    top: 0;
+    min-width: 10rem;
+    margin: 1rem 5% 0;
+    background-color: white;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    padding: 1rem 0 0;
+}
+
+.inbox-users-title {
+    text-align: center;
+    padding: 10px 5px 20px;
+    border-bottom: 1px solid $color-border;
+    color: $color-primary;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.inbox-latestmessages-wrapper {
+    position: relative;
+    background-color: white;
+    max-height: 9rem;
+    overflow: auto;
+}
+
+.inbox-latestmessages-messagepreview-wrapper {
+    padding: 1rem;
+    height: 40px;
+    cursor: pointer;
+    @include transition(background-color, 0.25s);
+    &:hover {
+        background-color: $color-hover;
+    }
+}
+
+.inbox-latestmessages-messagepreview-wrapper-unread {
+    background-color: darkgrey;
+}
+
+.inbox-latestmessages-messagepreview-replyimage {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    width: 1rem;
+    height: auto;
+    margin-right: 0.5rem;
+    @include transform(translateY(-50%));
+    vertical-align: top;
+}
+
+.inbox-latestmessages-messagepreview-userphoto {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+    vertical-align: top;
+    width: 40px;
+    height: 40px;
+    border: 0.05rem solid $color-border;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.inbox-latestmessages-messagepreview-username {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+    vertical-align: top;
+    margin-left: 1rem;
+}
+
+.inbox-latestmessages-messagepreview-messagedate {
+    position: relative;
+    top: 50%;
+    @include transform(translateY(-50%));
+    vertical-align: top;
+    float: right;
+    clear: both;
+}
+
+.inbox-messages-container {
+    display: inline-block;
+    position: relative;
+    width: 90%;
+    left: 0;
+    top: 0;
+    min-width: 10rem;
+    /* max-height: 10rem; */
+    margin: 1rem 5% 0;
+    background-color: white;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    padding: 1rem 0;
+}
+
+.inbox-messages-userarea {
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+}
+
+.inbox-messages-userphoto {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 0.05rem solid $color-border;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.inbox-messages-username {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    padding-left: 0.5rem;
+    top: 50%;
+    @include transform(translateY(-50%));
+    color: $color-primary;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.inbox-messages-wrapper {
+    border-top: 1px solid $color-border;
+    padding-top: 1rem;
+}
+
+.inbox-messages-message-left-container {
+    float: left;
+    clear: both;
+    background-color: #f2f8f3;
+    border-radius: 4%;
+    border: 1px solid #e1e3df;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0.5rem 0.5rem 0;
+}
+
+.inbox-messages-message-right-container {
+    float: right;
+    clear: both;
+    background-color: $color-primary;
+    color: white;
+    border: 1px solid #e1e3df;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0.5rem 0.5rem 0;
+}
+
+.inbox-messages-message-left-wrapper {
+    display: inline-block;
+    padding: 10px 15px 5px;
+}
+
+.inbox-messages-message-right-wrapper {
+    display: inline-block;
+    padding: 10px 15px 5px;
+}
+
+.inbox-messages-message-left {
+    word-break: break-word;
+    text-align: left;
+}
+
+.inbox-messages-message-right {
+    word-break: break-word;
+    text-align: right;
+}
+
+.inbox-messages-messagetime-left {
+    float: left;
+    font-size: 0.75rem;
+}
+
+.inbox-messages-messagetime-right {
+    float: right;
+    font-size: 0.75rem;
+}
+
+.inbox-sendmessage-form {
+    position: relative;
+    background-color: $color-hover;
+    margin: 1rem 5% 0;
+    width: 90%;
+}
+
+.inbox-sendmessage-corresponder {
+    display: inline-block;
+    padding: 0.5rem;
+}
+
+.inbox-sendmessage-textarea-container {
+    position: relative;
+    margin-top: 0.75rem;
+    padding: 0.25rem;
+}
+
+.inbox-sendmessage-textarea {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.inbox-sendmessage-bottom-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    min-height: 2.5rem;
+    margin: 0 0.75rem;
+}
+@media screen and (max-width: 40em) {
+    .inbox-sendmessage-bottom-container {
+        flex-direction: column;
+    }
+}
+
+.inbox-sendmessage-buttons-wrapper {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin: 0.25rem 0;
+    align-items: center;
+}
+
+.inbox-sendmessage-buttons-wrapper-left {
+    justify-content: flex-start;
+}
+
+.inbox-sendmessage-buttons-wrapper-right {
+    justify-content: flex-end;
+}
+
+.inbox-sendmessage-button-send-container {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+}
+
+.inbox-sendmessage-button-wrapper {
+    display: block;
+    position: relative;
+    margin: 0 0.25rem;
+}
+
+.inbox-sendmessage-button-send {
+    position: relative;
+    width: 7.5rem;
+    height: 2rem;
+    background-color: $color-primary !important;
+    color: $color-dirtywhite !important;
+    font-size: 0.9rem;
+}

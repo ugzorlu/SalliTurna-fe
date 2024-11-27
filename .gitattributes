@@ -1,0 +1,16 @@
+# Handles line endings automatically for text files.
+* text=auto
+
+# Explicitly marks binary files to prevent Git from trying to diff them.
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Ignores log files in exported archives.
+*.log export-ignore
+
+# Custom diff behavior for JSON files.
+*.json diff=json
+
+# Sets merge strategy for lock files.
+*.lock merge=ours

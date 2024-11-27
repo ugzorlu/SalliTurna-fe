@@ -1,0 +1,189 @@
+@use 'global-variables' as *;
+
+.post-container {
+    min-height: 100%;
+    width: 95%;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+@media screen and (min-width: $media-bp-large) {
+    .post-container {
+        width: 100%;
+    }
+}
+
+.post-form-container {
+    position: relative;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    background-color: $color-hover;
+}
+
+.post-form {
+    position: relative;
+}
+
+.post-form-textarea-container {
+    position: relative;
+    margin-top: 0.75rem;
+    padding-top: 0.25rem;
+}
+
+.post-spinner {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 100;
+}
+
+.post-form-textarea {
+    position: relative;
+    width: 98%;
+    margin: 0.25rem auto;
+}
+
+.post-form-bottom-container {
+    display: inline-block;
+    position: relative;
+    min-height: 4rem;
+    width: 100%;
+}
+
+.post-form-uploadphoto-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+    margin: 1rem 0;
+}
+
+.post-form-uploadphoto-info-wrapper {
+    position: relative;
+    font-size: 0.75rem;
+}
+
+.post-form-uploadphoto-preview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-form-uploadphoto-preview-wrapper {
+    width: 90%;
+}
+
+.post-form-uploadphoto-preview-image {
+    width: 100%;
+}
+
+.post-form-uploadphoto-preview-info {
+    position: relative;
+    top: 0.25rem;
+    font-size: 0.75rem;
+    word-break: break-word;
+}
+
+.post-form-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 2.5rem;
+    margin: 0 0.75rem;
+}
+@media screen and (max-width: 40em) {
+    .post-form-buttons-container {
+        flex-direction: column;
+    }
+}
+
+.post-form-buttons-wrapper {
+    display: flex;
+    position: relative;
+    margin: 0.25rem 0;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post-form-buttons-wrapper-left {
+    justify-content: flex-start;
+}
+
+.post-form-buttons-wrapper-right {
+    justify-content: flex-end;
+}
+
+.post-form-button-uploadphoto-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    width: 8.5rem;
+    height: 1.75rem;
+    margin: 0 0.25rem;
+    color: #2f2f3c !important;
+    background-color: inherit !important;
+    border: 0.05rem solid #2f2f3c !important;
+    font-family: 'Saira', sans-serif;
+    border-radius: 0.2rem !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.post-photo-wrapper {
+    text-align: center;
+}
+
+.post-form-button-uploadphoto-wrapper {
+    display: flex;
+    width: 20%;
+    white-space: pre;
+    padding-block: 1px;
+    padding-inline: 6px;
+}
+
+.post-form-button-uploadphoto-icon {
+    width: 1rem;
+    height: auto;
+}
+
+.post-form-button-uploadphoto-text {
+    width: 80%;
+    font-size: 0.9rem;
+}
+
+.post-form-button-uploadphoto-invisible {
+    position: absolute;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.post-button-wrapper {
+    display: block;
+    position: relative;
+    margin: 0 0.25rem;
+}
+
+.post-button-send {
+    position: relative;
+    width: 7.5rem;
+    height: 2rem;
+    background-color: $color-primary !important;
+    color: $color-dirtywhite !important;
+    font-size: 0.9rem;
+}
+
+.post-button-cancel {
+    position: relative;
+    width: 7.5rem;
+    height: 2rem;
+    background-color: $color-live !important;
+    color: $color-dirtywhite !important;
+    font-size: 0.9rem;
+}

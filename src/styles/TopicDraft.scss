@@ -1,0 +1,392 @@
+@use 'global-variables' as *;
+@import '~react-datepicker/dist/react-datepicker.css';
+@mixin transform($transforms...) {
+    $transform-list: join($transforms, null, space);
+
+    -webkit-transform: $transform-list;
+    -moz-transform: $transform-list;
+    -ms-transform: $transform-list;
+    -o-transform: $transform-list;
+    transform: $transform-list;
+}
+
+.topicdraft-container {
+    width: 95%;
+    max-width: 40rem;
+    min-height: 100%;
+    margin: 0 auto;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .profile-container {
+        min-width: 20rem;
+        width: 100%;
+    }
+}
+
+.topicdraftform-redirectedinfo {
+    display: block;
+    position: relative;
+    margin: 0.5rem 1% 0;
+    text-align: center;
+}
+
+.topicdraftform-form {
+    position: relative;
+}
+
+.topicdraftform-container {
+    position: relative;
+    left: 50%;
+    @include transform(translateX(-50%));
+    margin-top: 0.5rem;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    background-color: $color-hover;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .topicdraftform-container {
+        min-width: 30rem;
+    }
+}
+
+.topicdraftform-title-wrapper,
+.topicdraftform-post-textarea-wrapper,
+.topicdraftform-link-wrapper,
+.topicdraftform-hashtag-wrapper {
+    padding: 0.25rem;
+}
+
+.topicdraftform-title-textarea,
+.topicdraftform-post-textarea,
+.topicdraftform-link-textarea,
+.topicdraftform-hashtag-textarea,
+.topicdraftform-category-button {
+    position: relative;
+    width: 100%;
+}
+
+.topicdraftform-category-wrapper,
+.topicdraftform-city-wrapper,
+.topicdraftform-venue-wrapper,
+.topicdraftform-startdate-wrapper,
+.topicdraftform-starttime-wrapper,
+.topicdraftform-enddate-wrapper,
+.topicdraftform-endtime-wrapper {
+    position: relative;
+    margin: 0.25rem;
+    padding-left: 0.5rem;
+    border: 0.05rem solid $color-border;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    background: white;
+    cursor: pointer;
+}
+.topicdraftform-category-wrapper:focus,
+.topicdraftform-category-wrapper:hover,
+.topicdraftform-city-wrapper:focus,
+.topicdraftform-city-wrapper:hover,
+.topicdraftform-venue-wrapper:focus,
+.topicdraftform-venue-wrapper:hover,
+.topicdraftform-startdate-wrapper:focus,
+.topicdraftform-startdate-wrapper:hover,
+.topicdraftform-starttime-wrapper:focus,
+.topicdraftform-starttime-wrapper:hover,
+.topicdraftform-enddate-wrapper:focus,
+.topicdraftform-enddate-wrapper:hover,
+.topicdraftform-endtime-wrapper:focus,
+.topicdraftform-endtime-wrapper:hover {
+    box-shadow: 0 0 3px $color-live;
+    outline: none;
+}
+
+.topicdraftform-category-wrapper,
+.topicdraftform-city-wrapper,
+.topicdraftform-venue-wrapper {
+    display: block;
+}
+
+.topicdraftform-startdate-wrapper,
+.topicdraftform-starttime-wrapper,
+.topicdraftform-enddate-wrapper,
+.topicdraftform-endtime-wrapper {
+    display: inline-block;
+}
+
+.topicdraftform-free-wrapper {
+    display: flex;
+    position: relative;
+    margin: 0.25rem 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.topicdraftform-free-icon {
+    position: absolute;
+    top: 50%;
+    @include transform(translateY(-50%));
+    cursor: pointer;
+}
+
+.topicdraftform-free-wrapper .checkbox-label {
+    margin-left: 1.25rem;
+}
+
+.topicdraftform-startdate-wrapper,
+.topicdraftform-starttime-wrapper,
+.topicdraftform-enddate-wrapper,
+.topicdraftform-endtime-wrapper {
+    width: calc(50% - 0.3rem);
+}
+.topicdraftform-startdate-wrapper,
+.topicdraftform-enddate-wrapper {
+    margin-right: 0.05rem;
+}
+.topicdraftform-starttime-wrapper,
+.topicdraftform-endtime-wrapper {
+    margin-left: 0.05rem;
+}
+
+.topicdraftform-category-dropdown,
+.topicdraftform-city-dropdown,
+.topicdraftform-venue-dropdown,
+.topicdraftform-startdate-datepicker,
+.topicdraftform-starttime-datepicker,
+.topicdraftform-enddate-datepicker,
+.topicdraftform-endtime-datepicker {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    width: 100%;
+    line-height: 2.5;
+    border: 0;
+    box-shadow: none;
+    color: inherit;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    cursor: inherit;
+}
+
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+.react-datepicker__input-container input[type='text'] {
+    width: 100%;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+    cursor: inherit;
+}
+
+.topicdraftform-startdate-close-icon::after {
+    display: none;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .topicdraftform-startdate-close-icon::after {
+        background-color: $color-primary;
+        height: 12px;
+        width: 12px;
+    }
+}
+
+.topicdraftform-starttime-datepicker .react-datepicker__month-container,
+.topicdraftform-endtime-datepicker .react-datepicker__month-container {
+    display: none;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.topicdraftform-category-icon-container,
+.topicdraftform-city-icon-container,
+.topicdraftform-venue-icon-container,
+.topicdraftform-startdate-icon-container,
+.topicdraftform-starttime-icon-container,
+.topicdraftform-enddate-icon-container,
+.topicdraftform-endtime-icon-container {
+    display: flex;
+    position: absolute;
+    width: 15%;
+    height: 100%;
+    right: 0;
+    top: 0;
+}
+
+.topicdraftform-category-icon,
+.topicdraftform-city-icon,
+.topicdraftform-venue-icon,
+.topicdraftform-startdate-icon,
+.topicdraftform-starttime-icon,
+.topicdraftform-enddate-icon,
+.topicdraftform-endtime-icon {
+    display: inline-block;
+    position: relative;
+    width: 1rem;
+    height: auto;
+    left: 50%;
+    @include transform(translateX(-50%));
+    z-index: 0;
+}
+
+.topicdraftform-datepicker-popper {
+    @include transform(translate(0, 28px));
+    width: 100% !important;
+    z-index: 2 !important;
+    line-height: 1.5 !important;
+}
+
+.topicdraftform-spinner {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 100;
+}
+
+.topicdraftform-uploadphoto-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+    margin: 1rem 0;
+}
+
+.topicdraftform-uploadphoto-info-wrapper {
+    position: relative;
+    font-size: 0.75rem;
+}
+
+.topicdraftform-uploadphoto-preview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.topicdraftform-uploadphoto-preview-wrapper {
+    width: 90%;
+}
+
+.topicdraftform-uploadphoto-preview-image {
+    width: 100%;
+}
+
+.topicdraftform-uploadphoto-preview-info {
+    position: relative;
+    top: 0.25rem;
+    font-size: 0.75rem;
+    word-break: break-word;
+}
+
+.topicdraftform-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 2.5rem;
+    margin: 0 0.75rem;
+}
+@media screen and (max-width: 40em) {
+    .topicdraftform-buttons-container {
+        flex-direction: column;
+    }
+}
+
+.topicdraftform-buttons-wrapper {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin: 0.25rem 0;
+    align-items: center;
+}
+
+.topicdraftform-buttons-wrapper-left {
+    justify-content: flex-start;
+}
+
+.topicdraftform-buttons-wrapper-right {
+    justify-content: flex-end;
+}
+
+.topicdraftform-button-uploadphoto-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    width: 8.5rem;
+    height: 1.75rem;
+    margin: 0 0.25rem;
+    color: #2f2f3c !important;
+    background-color: inherit !important;
+    border: 0.05rem solid #2f2f3c !important;
+    font-family: 'Saira', sans-serif;
+    border-radius: 0.2rem !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.topicdraftform-button-uploadphoto-wrapper {
+    display: flex;
+    width: 20%;
+    white-space: pre;
+    padding-block: 1px;
+    padding-inline: 6px;
+}
+
+.topicdraftform-button-uploadphoto-icon {
+    width: 1rem;
+    height: auto;
+}
+
+.topicdraftform-button-uploadphoto-text {
+    width: 80%;
+    font-size: 0.9rem;
+}
+
+.topicdraftform-button-uploadphoto-invisible {
+    position: absolute;
+    visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.topicdraftform-send-wrapper {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* height: 2rem; */
+    width: 25%;
+}
+
+.topicdraftform-button-wrapper {
+    display: block;
+    position: relative;
+    margin: 0 0.25rem;
+}
+
+.topicdraftform-button-addspoiler {
+    position: relative;
+    width: 7.5rem;
+    height: 1.75rem;
+    color: $color-primary !important;
+    background-color: inherit !important;
+    border: 0.05rem solid $color-primary !important;
+    font-size: 0.9rem;
+}
+
+.topicdraftform-button-send {
+    position: relative;
+    width: 7.5rem;
+    height: 2rem;
+    background-color: $color-primary !important;
+    color: $color-dirtywhite !important;
+    font-size: 0.9rem;
+}
