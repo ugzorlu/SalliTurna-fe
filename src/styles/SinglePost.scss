@@ -405,8 +405,8 @@
 
 .singlepost-report-container {
     display: flex;
-    width: 1rem;
     height: auto;
+    margin-left: 0.25rem;
     justify-content: center;
     cursor: pointer;
 }
@@ -415,4 +415,15 @@
     position: relative;
     width: 0.25rem;
     height: auto;
+}
+
+.singlepost-tooltip {
+    background: $color-primary;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9999;
 }

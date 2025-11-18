@@ -151,7 +151,7 @@ export const validFileType = (file) => {
     // Ensuring the input is an object and has a valid 'type' property.
     if (!file || typeof file.type !== 'string') return false
 
-    const validTypes = ['image/jpeg', 'image/pjpeg', 'image/png']
+    const validTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/webp']
     return validTypes.includes(file.type)
 }
 
@@ -370,4 +370,54 @@ export function checkElementClicked(ref, target) {
 
     // Checks if the ref's current element contains the target element, returning false if ref.current is null.
     return ref?.current?.contains(target) || false
+}
+
+/**
+ * Returns tooltip position based on a target element.
+ *
+ * @param {HTMLElement} target
+ * @param {number} offset
+ */
+export function getTooltipPosition(target, offset = 8) {
+    const rect = target.getBoundingClientRect()
+    return {
+        x: rect.left + rect.width / 2,
+        y: rect.top - offset,
+    }
+}
+
+/**
+ *
+ * Shows tooltip by setting visibility state and updating position.
+ *
+ *  @param {React.Component} component - The instance of the class component.
+ *  @param {SyntheticEvent} event - Event object.
+ *  @param {string} text - Current tooltip text.
+ */
+export function showTooltip(component, event, text) {
+    const { x, y } = getTooltipPosition(event.target)
+
+    component.setState((prevState) => ({
+        ...prevState,
+        tooltip: {
+            ...prevState.tooltip,
+            isVisible: true,
+            x,
+            y,
+            text,
+        },
+    }))
+}
+
+/**
+ *
+ * Hides tooltip by setting visibility state.
+ *
+ *  @param {React.Component} component - The instance of the class component.
+ */
+export function hideTooltip(component) {
+    component.setState((prevState) => ({
+        ...prevState,
+        tooltip: { ...prevState.tooltip, isVisible: false },
+    }))
 }

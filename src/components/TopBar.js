@@ -483,13 +483,16 @@ class TopBar extends Component {
         )
         return (
             <ul className="menu-nav">
-                <Link to={`/profile/${userLoggedin.id}`}>
+                <Link
+                    className="menu-item-wrapper"
+                    to={`/profile/${userLoggedin.id}`}
+                >
                     <li className="topbar-item menu-item menu-item-myaccount">
                         {userLoggedin.username.toUpperCase()}
                     </li>
                 </Link>
                 <li className="menu-item-separator"></li>
-                <Link to="/inbox">
+                <Link className="menu-item-wrapper" to="/inbox">
                     <li className={menuItemInboxClasses}>
                         ({userLoggedin.unreadmessagecount})
                     </li>

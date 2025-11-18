@@ -280,6 +280,13 @@ class TitleList extends Component {
         if (endDate) {
             const end = dayjs(endDate)
 
+            // Returns full formats for both dates if years differ.
+            if (start.year() !== end.year()) {
+                return `${start.format('D MMMM YYYY')} - ${end.format(
+                    'D MMMM YYYY'
+                )} ⋅ ${start.format('HH:mm')} - ${end.format('HH:mm')}`
+            }
+
             if (start.format('D MMMM YYYY') === end.format('D MMMM YYYY')) {
                 return `${start.format('D MMMM YYYY dddd')} ⋅ ${start.format(
                     'HH:mm'
@@ -294,6 +301,7 @@ class TitleList extends Component {
                 )} ⋅ ${start.format('HH:mm')}`
             }
         } else {
+            // Returns full single date format if there is no end date.
             return `${start.format('D MMMM YYYY dddd')} ⋅ ${start.format(
                 'HH:mm'
             )}`
