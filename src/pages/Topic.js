@@ -836,8 +836,11 @@ class Topic extends Component {
 
         const isSameDay = endDay && startDay.isSame(endDay, 'day')
         const isSameMonth = endDay && startDay.isSame(endDay, 'month')
+        const isSameYear = endDay && startDay.isSame(endDay, 'year')
 
         let formattedDate
+        let formattedTime
+
         if (endDay) {
             if (isSameDay) {
                 formattedDate = startDay.format(fullFormat)
@@ -845,13 +848,22 @@ class Topic extends Component {
                 formattedDate = `${startDay.format(
                     dayFormat
                 )} - ${endDay.format(longFormat)}`
-            } else {
+            } else if (isSameYear) {
                 formattedDate = `${startDay.format(
                     shortFormat
                 )} - ${endDay.format(longFormat)}`
+            } else {
+                formattedDate = `${startDay.format(
+                    longFormat
+                )} - ${endDay.format(longFormat)}`
             }
+
+            formattedTime = `${startDay.format(clockFormat)} - ${endDay.format(
+                clockFormat
+            )}`
         } else {
             formattedDate = startDay.format(fullFormat)
+            formattedTime = startDay.format(clockFormat)
         }
 
         return (
@@ -870,9 +882,7 @@ class Topic extends Component {
                         src={iconClock}
                         alt={iconClock}
                     />
-                    <span className="topic-clock">
-                        {startDay.format(clockFormat)}
-                    </span>
+                    <span className="topic-clock">{formattedTime}</span>
                 </span>
             </span>
         )
@@ -880,7 +890,7 @@ class Topic extends Component {
     renderTitleArea = () => {
         const { Topic, isTitleDownloading } = this.state
         const { topic_title, Category, Venue, start_date, end_date } = Topic
-        const { isEvent, category_name } = Category
+        const { category_name } = Category
 
         return (
             <>
@@ -907,10 +917,7 @@ class Topic extends Component {
                             <h1 className="topic-title-skeleton"></h1>
                         ) : (
                             <>
-                                {this.renderTitle(
-                                    topic_title,
-                                    isEvent === 0 ? category_name : null
-                                )}
+                                {this.renderTitle(topic_title, category_name)}
                                 <div className="topic-info-container">
                                     {this.renderVenue(Venue)}
                                     {this.renderDateTime(start_date, end_date)}
