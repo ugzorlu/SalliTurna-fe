@@ -446,64 +446,69 @@ class SinglePost extends Component {
     }
 
     getTwitterWidgets = (postText) => {
-        // Defines a regex to match all Twitter/X URLs.
-        const twitterRegex =
-            /(https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/\w+\/status\/\d+/g
+        // Defines a regex string to match all X/Twitter URLs with or without containing query strings.
+        const TWEET_URL_REGEX =
+            /(https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/\w+\/status\/\d+(?:\?[^\s]*)?/
+        const tweetUrlRegex = new RegExp(TWEET_URL_REGEX, 'g') // Initializes with the global flag (g) to match all occurrences
 
-        // Checks the post text if there are any matching URLs.
-        const tweetUrls = postText.match(twitterRegex)
-        if (!tweetUrls) {
-            // Returns the original text as-is.
-            return postText
+        // Returns the original text as-is when there are no tweet URLs.
+        if (!tweetUrlRegex.test(postText)) return postText
+
+        // Resets regex's internal cursor (lastIndex). TIP: Need for all reusable regex containing the g flag to avoid missed matches or inconsistency.
+        tweetUrlRegex.lastIndex = 0
+
+        // Builds a linear, ordered list of the post text. Each part corresponds to either a plain text segment or a tweet URL detected by the regex.
+        const parts = []
+        let lastIndex = 0
+        // Iterates over all tweet URL matches in their natural order.
+        for (const match of postText.matchAll(tweetUrlRegex)) {
+            const url = match[0] // The full matched tweet URL
+            const idx = match.index ?? -1 // Safe lookup of the match position
+
+            // Extracts and emits text as a part if present.
+            if (idx > lastIndex) {
+                parts.push({
+                    type: 'text',
+                    text: postText.substring(lastIndex, idx),
+                })
+            }
+
+            // Emits a part representing the matched tweet URL itself.
+            parts.push({ type: 'tweet', url })
+
+            // Updates the cursor to the end of the current match.
+            lastIndex = idx + url.length
         }
 
-        // Extracts Tweet ID from the URL.
+        // Captures trailing text as a final part if present.
+        if (lastIndex < postText.length) {
+            parts.push({ type: 'text', text: postText.substring(lastIndex) })
+        }
+
+        // Helper function to extract Tweet ID from the URL.
         const extractTweetId = (url) => {
             const tweetIdMatch = url.match(/\/status\/(\d+)/)
             return tweetIdMatch ? tweetIdMatch[1] : null
         }
 
-        // Extracts non-tweet text parts while ignoring protocol fragments.
-        const parts = []
-        let lastIndex = 0
-        tweetUrls.forEach((url) => {
-            const matchIndex = postText.indexOf(url, lastIndex)
-
-            // Pushs the text before the current tweet URL.
-            if (matchIndex > lastIndex) {
-                parts.push(postText.substring(lastIndex, matchIndex))
-            }
-
-            // Updates last index to the end of the current URL.
-            lastIndex = matchIndex + url.length
-        })
-        // Pushs any remaining text after the last tweet URL.
-        if (lastIndex < postText.length) {
-            parts.push(postText.substring(lastIndex))
-        }
-
-        // Combines plain text and tweets in the correct order.
-        const content = parts.reduce((acc, part, index) => {
-            // Adds the plain text part.
-            acc.push(<span key={`text-${index}`}>{part}</span>)
-
-            // Adds corresponding tweet if available.
-            if (tweetUrls[index]) {
-                const tweetId = extractTweetId(tweetUrls[index])
-                if (tweetId) {
-                    acc.push(
-                        <div
-                            key={`tweet-${tweetId}`}
-                            className="singlepost-tweet"
-                        >
-                            <TwitterTweetEmbed tweetId={tweetId} />
-                        </div>
-                    )
+        // Maps plain texts and tweets in parts to React elements in the exact order.
+        const content = parts
+            .map((part, i) => {
+                if (part.type === 'text') {
+                    return part.text ? (
+                        <span key={`text-${i}`}>{part.text}</span>
+                    ) : null
                 }
-            }
 
-            return acc
-        }, [])
+                const tweetId = extractTweetId(part.url)
+                if (!tweetId) return null
+                return (
+                    <div key={`tweet-${tweetId}`} className="singlepost-tweet">
+                        <TwitterTweetEmbed tweetId={tweetId} />
+                    </div>
+                )
+            })
+            .filter(Boolean) // Cleans falsy text parts
 
         // Returns the final composed content.
         return content
@@ -675,7 +680,7 @@ class SinglePost extends Component {
                             'twitter',
                             this.handleShareOnTwitter,
                             logoTwitter,
-                            'Twitter'
+                            'X (Twitter)'
                         )}
                         {this.renderSocialAction(
                             'facebook',
