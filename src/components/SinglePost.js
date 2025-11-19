@@ -39,6 +39,8 @@ import {
     updateState,
     bindDocumentEvents,
     unbindDocumentEvents,
+    showTooltip,
+    hideTooltip,
 } from '../utils/commons'
 import { setDialog } from '../actions/dialogActions'
 import { setModal } from '../actions/modalActions'
@@ -84,6 +86,12 @@ class SinglePost extends Component {
                 isPostActionDropdownHidden: true,
                 isPostShareDropdownHidden: true,
                 lastEventTime: 0,
+            },
+            tooltip: {
+                isVisible: false,
+                x: 0,
+                y: 0,
+                text: '',
             },
         }
         this.postActionDropdownRef = createRef()
@@ -267,7 +275,7 @@ class SinglePost extends Component {
         history.push('/contact?postid=' + Post.post_id)
     }
 
-    handleSendMessage = (e) => {
+    handleSendMessage = () => {
         const { User, Post, setDialog, history } = this.props
         const receiverUserId = Post.User.user_id
 
@@ -278,7 +286,7 @@ class SinglePost extends Component {
         history.push('/inbox?corresponderid=' + receiverUserId)
     }
 
-    handleUpvote = (e) => {
+    handleUpvote = () => {
         const { User, setDialog } = this.props
         const { isPostUpVotedByUser } = this.state.userRelation
 
@@ -292,7 +300,7 @@ class SinglePost extends Component {
             : this.insertPostVote(true)
     }
 
-    handleDownvote = (e) => {
+    handleDownvote = () => {
         const { User, setDialog } = this.props
         const { isPostDownVotedByUser } = this.state.userRelation
 
@@ -429,65 +437,78 @@ class SinglePost extends Component {
         setModal({ isModalActive: true, photoLink: Post.post_photo })
     }
 
-    getTwitterWidgets = (postText) => {
-        // Defines a regex to match all Twitter/X URLs.
-        const twitterRegex =
-            /(https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/\w+\/status\/\d+/g
+    showTooltip = (e, text) => {
+        showTooltip(this, e, text)
+    }
 
-        // Checks the post text if there are any matching URLs.
-        const tweetUrls = postText.match(twitterRegex)
-        if (!tweetUrls) {
-            // Returns the original text as-is.
-            return postText
+    hideTooltip = () => {
+        hideTooltip(this)
+    }
+
+    getTwitterWidgets = (postText) => {
+        // Defines a regex string to match all X/Twitter URLs with or without containing query strings.
+        const TWEET_URL_REGEX =
+            /(https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/\w+\/status\/\d+(?:\?[^\s]*)?/
+        const tweetUrlRegex = new RegExp(TWEET_URL_REGEX, 'g') // Initializes with the global flag (g) to match all occurrences
+
+        // Returns the original text as-is when there are no tweet URLs.
+        if (!tweetUrlRegex.test(postText)) return postText
+
+        // Resets regex's internal cursor (lastIndex). TIP: Need for all reusable regex containing the g flag to avoid missed matches or inconsistency.
+        tweetUrlRegex.lastIndex = 0
+
+        // Builds a linear, ordered list of the post text. Each part corresponds to either a plain text segment or a tweet URL detected by the regex.
+        const parts = []
+        let lastIndex = 0
+        // Iterates over all tweet URL matches in their natural order.
+        for (const match of postText.matchAll(tweetUrlRegex)) {
+            const url = match[0] // The full matched tweet URL
+            const idx = match.index ?? -1 // Safe lookup of the match position
+
+            // Extracts and emits text as a part if present.
+            if (idx > lastIndex) {
+                parts.push({
+                    type: 'text',
+                    text: postText.substring(lastIndex, idx),
+                })
+            }
+
+            // Emits a part representing the matched tweet URL itself.
+            parts.push({ type: 'tweet', url })
+
+            // Updates the cursor to the end of the current match.
+            lastIndex = idx + url.length
         }
 
-        // Extracts Tweet ID from the URL.
+        // Captures trailing text as a final part if present.
+        if (lastIndex < postText.length) {
+            parts.push({ type: 'text', text: postText.substring(lastIndex) })
+        }
+
+        // Helper function to extract Tweet ID from the URL.
         const extractTweetId = (url) => {
             const tweetIdMatch = url.match(/\/status\/(\d+)/)
             return tweetIdMatch ? tweetIdMatch[1] : null
         }
 
-        // Extracts non-tweet text parts while ignoring protocol fragments.
-        const parts = []
-        let lastIndex = 0
-        tweetUrls.forEach((url) => {
-            const matchIndex = postText.indexOf(url, lastIndex)
-
-            // Pushs the text before the current tweet URL.
-            if (matchIndex > lastIndex) {
-                parts.push(postText.substring(lastIndex, matchIndex))
-            }
-
-            // Updates last index to the end of the current URL.
-            lastIndex = matchIndex + url.length
-        })
-        // Pushs any remaining text after the last tweet URL.
-        if (lastIndex < postText.length) {
-            parts.push(postText.substring(lastIndex))
-        }
-
-        // Combines plain text and tweets in the correct order.
-        const content = parts.reduce((acc, part, index) => {
-            // Adds the plain text part.
-            acc.push(<span key={`text-${index}`}>{part}</span>)
-
-            // Adds corresponding tweet if available.
-            if (tweetUrls[index]) {
-                const tweetId = extractTweetId(tweetUrls[index])
-                if (tweetId) {
-                    acc.push(
-                        <div
-                            key={`tweet-${tweetId}`}
-                            className="singlepost-tweet"
-                        >
-                            <TwitterTweetEmbed tweetId={tweetId} />
-                        </div>
-                    )
+        // Maps plain texts and tweets in parts to React elements in the exact order.
+        const content = parts
+            .map((part, i) => {
+                if (part.type === 'text') {
+                    return part.text ? (
+                        <span key={`text-${i}`}>{part.text}</span>
+                    ) : null
                 }
-            }
 
-            return acc
-        }, [])
+                const tweetId = extractTweetId(part.url)
+                if (!tweetId) return null
+                return (
+                    <div key={`tweet-${tweetId}`} className="singlepost-tweet">
+                        <TwitterTweetEmbed tweetId={tweetId} />
+                    </div>
+                )
+            })
+            .filter(Boolean) // Cleans falsy text parts
 
         // Returns the final composed content.
         return content
@@ -575,24 +596,44 @@ class SinglePost extends Component {
         const { upvoteCount, downvoteCount } = this.state.voteCount
         const { isPostUpVotedByUser, isPostDownVotedByUser } =
             this.state.userRelation
+        const { isVisible, x, y, text } = this.state.tooltip
 
         return (
-            <div className="singlepost-vote-container">
-                {this.renderVoteButton(
-                    'upvote',
-                    isPostUpVotedByUser,
-                    upvoteCount,
-                    this.handleUpvote,
-                    iconAngleUp
+            <>
+                <div
+                    className="singlepost-vote-container"
+                    onMouseEnter={(e) => this.showTooltip(e, 'Oyla')}
+                    onMouseLeave={this.hideTooltip}
+                >
+                    {this.renderVoteButton(
+                        'upvote',
+                        isPostUpVotedByUser,
+                        upvoteCount,
+                        this.handleUpvote,
+                        iconAngleUp
+                    )}
+                    {this.renderVoteButton(
+                        'downvote',
+                        isPostDownVotedByUser,
+                        downvoteCount,
+                        this.handleDownvote,
+                        iconAngleDown
+                    )}
+                </div>
+                {isVisible && (
+                    <div
+                        className="singlepost-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: x,
+                            top: y,
+                            transform: 'translate(-50%, -100%)',
+                        }}
+                    >
+                        {text}
+                    </div>
                 )}
-                {this.renderVoteButton(
-                    'downvote',
-                    isPostDownVotedByUser,
-                    downvoteCount,
-                    this.handleDownvote,
-                    iconAngleDown
-                )}
-            </div>
+            </>
         )
     }
 
@@ -611,43 +652,64 @@ class SinglePost extends Component {
     )
     renderSocialDropdown = () => {
         const { isPostShareDropdownHidden } = this.state.menu
+        const { isVisible, x, y, text } = this.state.tooltip
 
         return (
-            <div
-                className="singlepost-social-container"
-                onClick={this.togglePostShare}
-            >
-                <img
-                    className="singlepost-social-share"
-                    src={iconShareNodes}
-                    alt={iconShareNodes}
-                />
+            <>
                 <div
-                    className="singlepost-social-dropdown"
-                    ref={this.postShareDropdownRef}
-                    style={{
-                        display: isPostShareDropdownHidden ? 'none' : 'flex',
-                    }}
+                    className="singlepost-social-container"
+                    onMouseEnter={(e) => this.showTooltip(e, 'Paylaş')}
+                    onMouseLeave={this.hideTooltip}
+                    onClick={this.togglePostShare}
                 >
-                    {this.renderSocialAction(
-                        'twitter',
-                        this.handleShareOnTwitter,
-                        logoTwitter,
-                        'Twitter'
-                    )}
-                    {this.renderSocialAction(
-                        'facebook',
-                        this.handleShareOnFacebook,
-                        logoFacebook,
-                        'Facebook'
-                    )}
+                    <img
+                        className="singlepost-social-share"
+                        src={iconShareNodes}
+                        alt={iconShareNodes}
+                    />
+                    <div
+                        className="singlepost-social-dropdown"
+                        ref={this.postShareDropdownRef}
+                        style={{
+                            display: isPostShareDropdownHidden
+                                ? 'none'
+                                : 'flex',
+                        }}
+                    >
+                        {this.renderSocialAction(
+                            'twitter',
+                            this.handleShareOnTwitter,
+                            logoTwitter,
+                            'X (Twitter)'
+                        )}
+                        {this.renderSocialAction(
+                            'facebook',
+                            this.handleShareOnFacebook,
+                            logoFacebook,
+                            'Facebook'
+                        )}
+                    </div>
                 </div>
-            </div>
+                {isVisible && (
+                    <div
+                        className="singlepost-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: x,
+                            top: y,
+                            transform: 'translate(-50%, -100%)',
+                        }}
+                    >
+                        {text}
+                    </div>
+                )}
+            </>
         )
     }
 
     renderUserInfo = () => {
         const { Post, User } = this.props
+        const { isVisible, x, y, text } = this.state.tooltip
         const postOwner = Post.User
         const isPostEditable = User.username === postOwner.user_name
 
@@ -655,17 +717,53 @@ class SinglePost extends Component {
         return (
             <div className="singlepost-user-wrapper">
                 <Link to={`/profile/${postOwner.user_id}`}>
-                    <span className="singlepost-username">
+                    <span
+                        className="singlepost-username"
+                        onMouseEnter={(e) => this.showTooltip(e, 'Profile bak')}
+                        onMouseLeave={this.hideTooltip}
+                    >
                         {postOwner.user_name}
                     </span>
+                    {isVisible && (
+                        <div
+                            className="singlepost-tooltip"
+                            style={{
+                                position: 'fixed',
+                                left: x,
+                                top: y,
+                                transform: 'translate(-50%, -100%)',
+                            }}
+                        >
+                            {text}
+                        </div>
+                    )}
                 </Link>
                 {!isPostEditable && (
-                    <img
-                        className="singlepost-sendmessage"
-                        onClick={this.handleSendMessage}
-                        src={iconEnvelope}
-                        alt={iconEnvelope}
-                    />
+                    <>
+                        <img
+                            className="singlepost-sendmessage"
+                            onClick={this.handleSendMessage}
+                            onMouseEnter={(e) =>
+                                this.showTooltip(e, 'Mesaj at')
+                            }
+                            onMouseLeave={this.hideTooltip}
+                            src={iconEnvelope}
+                            alt={iconEnvelope}
+                        />
+                        {isVisible && (
+                            <div
+                                className="singlepost-tooltip"
+                                style={{
+                                    position: 'fixed',
+                                    left: x,
+                                    top: y,
+                                    transform: 'translate(-50%, -100%)',
+                                }}
+                            >
+                                {text}
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         )
@@ -673,6 +771,7 @@ class SinglePost extends Component {
 
     renderTimeStamp = () => {
         const { Post } = this.props
+        const { isVisible, x, y, text } = this.state.tooltip
         const postDate = dayjs(Post.post_date)
         const editDate = Post.edit_date ? dayjs(Post.edit_date) : null
         const isEditSameDay = editDate
@@ -688,18 +787,37 @@ class SinglePost extends Component {
 
         // Renders date/time of the post and gives link to its individual page.
         return (
-            <div className="singlepost-date-wrapper">
-                <Link to={{ pathname: '/post/' + Post.post_id }}>
-                    <span className="singlepost-postdate">
-                        {postDatePrettyText}
-                    </span>
-                    {editDate && (
-                        <span className="singlepost-editdate">
-                            &nbsp;~ {editDatePrettyText}
+            <>
+                <div
+                    className="singlepost-date-wrapper"
+                    onMouseEnter={(e) => this.showTooltip(e, 'Gönderiye bak')}
+                    onMouseLeave={this.hideTooltip}
+                >
+                    <Link to={{ pathname: '/post/' + Post.post_id }}>
+                        <span className="singlepost-postdate">
+                            {postDatePrettyText}
                         </span>
-                    )}
-                </Link>
-            </div>
+                        {editDate && (
+                            <span className="singlepost-editdate">
+                                &nbsp;~ {editDatePrettyText}
+                            </span>
+                        )}
+                    </Link>
+                </div>
+                {isVisible && (
+                    <div
+                        className="singlepost-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: x,
+                            top: y,
+                            transform: 'translate(-50%, -100%)',
+                        }}
+                    >
+                        {text}
+                    </div>
+                )}
+            </>
         )
     }
 
@@ -713,49 +831,55 @@ class SinglePost extends Component {
         // Renders edit/delete action menu if the user is same, report menu if not.
         if (isPostEditable) {
             return (
-                <span className="singlepost-actions-wrapper">
-                    <img
-                        className="singlepost-actions-button"
-                        onClick={this.togglePostAction}
-                        src={iconCaretDown}
-                        alt={iconCaretDown}
-                    />
-                    <div
-                        className="singlepost-actions-dropdown"
-                        ref={this.postActionDropdownRef}
-                        style={{
-                            display: isPostActionDropdownHidden
-                                ? 'none'
-                                : 'inline-block',
-                        }}
-                    >
+                <>
+                    <span className="singlepost-actions-wrapper">
+                        <img
+                            className="singlepost-actions-button"
+                            onClick={this.togglePostAction}
+                            src={iconCaretDown}
+                            alt={iconCaretDown}
+                        />
                         <div
-                            className="singlepost-actions-action singlepost-actions-edit"
-                            onClick={this.handleEditPost}
+                            className="singlepost-actions-dropdown"
+                            ref={this.postActionDropdownRef}
+                            style={{
+                                display: isPostActionDropdownHidden
+                                    ? 'none'
+                                    : 'inline-block',
+                            }}
                         >
-                            Düzenle
+                            <div
+                                className="singlepost-actions-action singlepost-actions-edit"
+                                onClick={this.handleEditPost}
+                            >
+                                Düzenle
+                            </div>
+                            <div
+                                className="singlepost-actions-action singlepost-actions-delete"
+                                onClick={this.handleDeletePost}
+                            >
+                                Sil
+                            </div>
                         </div>
-                        <div
-                            className="singlepost-actions-action singlepost-actions-delete"
-                            onClick={this.handleDeletePost}
-                        >
-                            Sil
-                        </div>
-                    </div>
-                </span>
+                    </span>
+                </>
             )
         }
         return (
-            <div
-                className="singlepost-report-container"
-                onClick={this.handleReport}
-            >
-                <img
-                    className="singlepost-report"
-                    src={iconExclamation}
-                    alt={iconExclamation}
-                />
-            </div>
+            <>
+                <div
+                    className="singlepost-report-container"
+                    onClick={this.handleReport}
+                    onMouseEnter={(e) => this.showTooltip(e, 'Şikayet et')}
+                    onMouseLeave={this.hideTooltip}
+                >
+                    <img
+                        className="singlepost-report"
+                        src={iconExclamation}
+                        alt={iconExclamation}
+                    />
+                </div>
+            </>
         )
     }
 
