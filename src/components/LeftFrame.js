@@ -177,6 +177,49 @@ class TitleList extends Component {
         }
     }
 
+    formatEventDate = (startDate, endDate) => {
+        const start = dayjs(startDate)
+        const end = endDate ? dayjs(endDate) : null
+
+        // Pre-formats commonly needed components.
+        const sDateFull = start.format('D MMMM YYYY')
+        const sDayMonth = start.format('D MMMM')
+        const sDay = start.format('D')
+        const sWeekday = start.format('dddd')
+        const sTime = start.format('HH:mm')
+        const eDateFull = end ? end.format('D MMMM YYYY') : null
+        const eTime = end ? end.format('HH:mm') : null
+
+        // Returns the single date if there is no end date.
+        if (!end) return `${sDateFull} ${sWeekday} ⋅ ${sTime}`
+
+        // Defines a variable for the decision of hiding clocks if both time exist and both are midnight.
+        const hideTime = sTime === '00:00' && eTime === '00:00'
+
+        // Shows full dates, skips time for cross-year. Hides clocks if necessary.
+        if (!start.isSame(end, 'year')) {
+            return hideTime
+                ? `${sDateFull} - ${eDateFull}`
+                : `${sDateFull} - ${eDateFull} ⋅ ${sTime} - ${eTime}`
+        }
+
+        // Shows start date and full end date for same year, cross-month. Hides clocks if necessary.
+        if (!start.isSame(end, 'month')) {
+            return hideTime
+                ? `${sDayMonth} - ${eDateFull}`
+                : `${sDayMonth} - ${eDateFull} ⋅ ${sTime}`
+        }
+
+        // Shows start day and full end date for same year, same month, cross-day. Hides clocks if necessary.
+        if (!start.isSame(end, 'day')) {
+            return hideTime
+                ? `${sDay} - ${eDateFull}`
+                : `${sDay} - ${eDateFull} ⋅ ${sTime}`
+        }
+
+        // Shows full start date and the weekday for same year, same month, same day.
+        return `${sDateFull} ${sWeekday} ⋅ ${sTime} - ${eTime}`
+    }
     renderTopic = (Topic, url) => {
         const isActive =
             Topic.topic_id === this.state.selectedTopic && url.includes('topic')
@@ -273,39 +316,6 @@ class TitleList extends Component {
             //   </div>
             // }
         )
-    }
-    formatEventDate = (startDate, endDate) => {
-        const start = dayjs(startDate)
-
-        if (endDate) {
-            const end = dayjs(endDate)
-
-            // Returns full formats for both dates if years differ.
-            if (start.year() !== end.year()) {
-                return `${start.format('D MMMM YYYY')} - ${end.format(
-                    'D MMMM YYYY'
-                )} ⋅ ${start.format('HH:mm')} - ${end.format('HH:mm')}`
-            }
-
-            if (start.format('D MMMM YYYY') === end.format('D MMMM YYYY')) {
-                return `${start.format('D MMMM YYYY dddd')} ⋅ ${start.format(
-                    'HH:mm'
-                )} - ${end.format('HH:mm')}`
-            } else if (start.format('MMMM') === end.format('MMMM')) {
-                return `${start.format('D')} - ${end.format(
-                    'D MMMM YYYY'
-                )} ⋅ ${end.format('HH:mm')}`
-            } else {
-                return `${start.format('D MMMM')} - ${end.format(
-                    'D MMMM YYYY'
-                )} ⋅ ${start.format('HH:mm')}`
-            }
-        } else {
-            // Returns full single date format if there is no end date.
-            return `${start.format('D MMMM YYYY dddd')} ⋅ ${start.format(
-                'HH:mm'
-            )}`
-        }
     }
 
     renderTitleListArea = () => {
@@ -1116,9 +1126,9 @@ class LeftFrame extends Component {
                                 {[
                                     'Tüm Kategoriler',
                                     'Konser',
-                                    'Sahne / Sergi / Sinema',
-                                    'Eğitim / Söyleşi / Sohbet',
-                                    'Gösteri',
+                                    'Sahne',
+                                    'Eğitim',
+                                    'Festival',
                                 ].map((name) => (
                                     <DropdownCategory
                                         key={name}

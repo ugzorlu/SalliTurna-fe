@@ -245,8 +245,8 @@ class TopicCard extends Component {
                     <div className="topic-title-container">
                         <div className="topic-title-wrapper">
                             <div className="topic-title">
-                                {topic.topic_title} (
-                                {topic.Category.category_name})
+                                {topic.topic_title}
+                                {/* ({topic.Category.category_name}) */}
                             </div>
                         </div>
                     </div>

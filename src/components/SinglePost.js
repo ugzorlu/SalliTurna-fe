@@ -276,6 +276,8 @@ class SinglePost extends Component {
     }
 
     handleSendMessage = () => {
+        this.hideTooltip()
+
         const { User, Post, setDialog, history } = this.props
         const receiverUserId = Post.User.user_id
 
@@ -287,6 +289,8 @@ class SinglePost extends Component {
     }
 
     handleUpvote = () => {
+        this.hideTooltip()
+
         const { User, setDialog } = this.props
         const { isPostUpVotedByUser } = this.state.userRelation
 
@@ -301,6 +305,8 @@ class SinglePost extends Component {
     }
 
     handleDownvote = () => {
+        this.hideTooltip()
+
         const { User, setDialog } = this.props
         const { isPostDownVotedByUser } = this.state.userRelation
 

@@ -627,7 +627,7 @@ class Topic extends Component {
     // TODO feature
     //handleClickPaginationCustomPage = () => {}
 
-    handleInsertPost = (e) => {
+    handleInsertPost = () => {
         // Checks if page is full of pre-defined number of posts per page.
         const { pagination, totalpostcount } = this.state
         const isPageFull = totalpostcount % 10 === 0
@@ -660,7 +660,7 @@ class Topic extends Component {
         })
     }
 
-    handleClickAttendanceDeclaration = async (e) => {
+    handleClickAttendanceDeclaration = async () => {
         const { User, setDialog } = this.props
         const isUserLoggedin = checkUserLoggedinStatus(User, setDialog)
         if (!isUserLoggedin) {
@@ -838,6 +838,11 @@ class Topic extends Component {
         const isSameMonth = endDay && startDay.isSame(endDay, 'month')
         const isSameYear = endDay && startDay.isSame(endDay, 'year')
 
+        // Defines a variable for the decision of hiding clock area if both time exist and both are midnight.
+        const hideTime =
+            startDay.format(clockFormat) === '00:00' &&
+            endDay.format(clockFormat) === '00:00'
+
         let formattedDate
         let formattedTime
 
@@ -876,14 +881,16 @@ class Topic extends Component {
                     />
                     <span className="topic-date">{formattedDate}</span>
                 </span>
-                <span className="topic-clock-wrapper">
-                    <img
-                        className="topic-clock-icon"
-                        src={iconClock}
-                        alt={iconClock}
-                    />
-                    <span className="topic-clock">{formattedTime}</span>
-                </span>
+                {!hideTime && (
+                    <span className="topic-clock-wrapper">
+                        <img
+                            className="topic-clock-icon"
+                            src={iconClock}
+                            alt={iconClock}
+                        />
+                        <span className="topic-clock">{formattedTime}</span>
+                    </span>
+                )}
             </span>
         )
     }
