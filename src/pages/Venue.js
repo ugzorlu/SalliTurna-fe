@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 /* External Libraries */
 import { connect } from 'react-redux'
+import Linkify from 'linkify-react'
 
 /* Internal Components */
 import { TitleHelmet, HELMET_PRIORITY } from '../components/Helmet'
@@ -136,7 +137,9 @@ class Venue extends Component {
                     <div className="venue-text-container">
                         <div className="venue-text-wrapper">
                             <span className="venue-text">
-                                {Venue.venue_text}
+                                <Linkify options={{ target: '_blank' }}>
+                                    {Venue.venue_text}
+                                </Linkify>
                             </span>
                         </div>
                     </div>

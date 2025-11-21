@@ -102,7 +102,7 @@
 }
 
 .venue-text-wrapper {
-    padding: 3rem 1.5rem;
+    padding: 0 1.5rem 1.5rem;
     text-align: center;
 }
 
@@ -113,6 +113,9 @@
 
 .venue-text {
     margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 0.9rem;
 }
 
 .venue-text-skeleton {
