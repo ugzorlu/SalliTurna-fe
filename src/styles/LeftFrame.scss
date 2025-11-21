@@ -491,12 +491,14 @@
     flex-basis: 75%;
 }
 
-.leftframe-event-date {
+.leftframe-event-date-container {
+    display: flex;
     position: relative;
+    flex-wrap: wrap;
     font-size: 0.75rem;
     padding: 0.25rem 0.75rem 0;
 }
-.leftframe-event-date-skeleton {
+.leftframe-event-date-container-skeleton {
     height: 1.25rem;
     margin: 0.25rem 0;
     width: 75%;
@@ -512,6 +514,25 @@
     @include animation(loading, 2s infinite);
     &:before {
         content: '\00a0';
+    }
+}
+
+.leftframe-event-date {
+    margin-right: 0.25rem;
+    white-space: nowrap;
+}
+
+.leftframe-event-time {
+    white-space: nowrap;
+    &:before {
+        content: ' ⋅ ';
+    }
+}
+@media screen and (min-width: $media-bp-large) {
+    .leftframe-event-time {
+        &:before {
+            content: '';
+        }
     }
 }
 

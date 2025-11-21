@@ -158,7 +158,7 @@ class TitleList extends Component {
                                 <div className="leftframe-event-photo-wrapper-skeleton"></div>
                             </div>
                             <div className="leftframe-event-text-container-skeleton">
-                                <div className="leftframe-event-date-skeleton"></div>
+                                <div className="leftframe-event-date-container-skeleton"></div>
                                 <div className="leftframe-event-title-skeleton"></div>
                             </div>
                         </div>
@@ -182,43 +182,45 @@ class TitleList extends Component {
         const end = endDate ? dayjs(endDate) : null
 
         // Pre-formats commonly needed components.
-        const sDateFull = start.format('D MMMM YYYY')
-        const sDayMonth = start.format('D MMMM')
-        const sDay = start.format('D')
-        const sWeekday = start.format('dddd')
-        const sTime = start.format('HH:mm')
-        const eDateFull = end ? end.format('D MMMM YYYY') : null
+        const sFull = start.format('D MMMM YYYY') // Example: "19 Mart 2026"
+        const sMonthDay = start.format('D MMMM') // Example: "19 Mart"
+        const sDay = start.format('D') // Example: "19"
+        const sWeekday = start.format('dddd') // Example: "Perşembe"
+        const sTime = start.format('HH:mm') // Example: "12:00"
+
+        const eFull = end ? end.format('D MMMM YYYY') : null
         const eTime = end ? end.format('HH:mm') : null
 
-        // Returns the single date if there is no end date.
-        if (!end) return `${sDateFull} ${sWeekday} ⋅ ${sTime}`
+        // Returns the single date if there is no end date present.
+        if (!end) return `${sFull} ${sWeekday} ⋅ ${sTime}`
 
-        // Defines a variable for the decision of hiding clocks if both time exist and both are midnight.
+        // Defines a variable for the decision of hiding the time block if both time exist and both are exactly midnight.
         const hideTime = sTime === '00:00' && eTime === '00:00'
 
-        // Shows full dates, skips time for cross-year. Hides clocks if necessary.
-        if (!start.isSame(end, 'year')) {
-            return hideTime
-                ? `${sDateFull} - ${eDateFull}`
-                : `${sDateFull} - ${eDateFull} ⋅ ${sTime} - ${eTime}`
+        let timeString = hideTime ? null : `${sTime} - ${eTime}` // Different times (e.g. "20:00 - 22:00")
+
+        let dateString = ''
+        if (start.isSame(end, 'day')) {
+            dateString = `${sFull} ${sWeekday}` // Same exact calendar day (e.g. 19 Mart 2026)
+        } else if (start.isSame(end, 'month')) {
+            dateString = `${sDay} - ${eFull}` // Same month, multiple days (e.g. "19 - 22 Mart 2026")
+        } else if (start.isSame(end, 'year')) {
+            dateString = `${sMonthDay} - ${eFull}` // Same year, different months (e.g. "19 March - 20 Nisan 2026")
+        } else {
+            dateString = `${sFull} - ${eFull}` // Different years (e.g. "12 Aralık 2026 - 3 Ocak 2027")
         }
 
-        // Shows start date and full end date for same year, cross-month. Hides clocks if necessary.
-        if (!start.isSame(end, 'month')) {
-            return hideTime
-                ? `${sDayMonth} - ${eDateFull}`
-                : `${sDayMonth} - ${eDateFull} ⋅ ${sTime}`
-        }
-
-        // Shows start day and full end date for same year, same month, cross-day. Hides clocks if necessary.
-        if (!start.isSame(end, 'day')) {
-            return hideTime
-                ? `${sDay} - ${eDateFull}`
-                : `${sDay} - ${eDateFull} ⋅ ${sTime}`
-        }
-
-        // Shows full start date and the weekday for same year, same month, same day.
-        return `${sDateFull} ${sWeekday} ⋅ ${sTime} - ${eTime}`
+        // Returns the final JSX output: Always a date span and optionally a time.
+        return [
+            <span key="date" className="leftframe-event-date">
+                {dateString}
+            </span>,
+            timeString && (
+                <span key="time" className="leftframe-event-time">
+                    {timeString}
+                </span>
+            ),
+        ]
     }
     renderTopic = (Topic, url) => {
         const isActive =
@@ -271,7 +273,7 @@ class TitleList extends Component {
                                     </div>
                                 </div>
                                 <div className="leftframe-event-text-container">
-                                    <div className="leftframe-event-date">
+                                    <div className="leftframe-event-date-container">
                                         {this.formatEventDate(
                                             Topic.start_date,
                                             Topic.end_date
@@ -280,8 +282,10 @@ class TitleList extends Component {
                                     <div className="leftframe-event-title">
                                         {Topic.topic_title}
                                     </div>
-                                    {liveIcon}
-                                    {freeIcon}
+                                    <div className="leftframe-event-alert-container">
+                                        {liveIcon}
+                                        {freeIcon}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 {
     "name": "salliturna-fe",
-    "version": "2.0.0",
-    "description": "Şallı Turna",
+    "version": "2.0.2",
+    "description": "Şallı Turna - An interactive Single Page App that keeps you informed about upcoming art events happening near you.",
     "main": "index.js",
     "scripts": {
         "analyze": "webpack --config webpack.prod.js --profile --json > stats.json && webpack-bundle-analyzer stats.json",
