@@ -111,7 +111,12 @@
 .topic-time-wrapper {
     display: inline-flex;
     width: 100%;
-    justify-content: center;
+    justify-content: space-evenly;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .topic-time-wrapper {
+        justify-content: center;
+    }
 }
 
 .topic-venue-wrapper,
@@ -120,7 +125,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 0.25rem 0.75rem;
+    margin: 0.25rem 0.2rem;
+}
+
+@media screen and (min-width: $media-bp-medium) {
+    .topic-venue-wrapper,
+    .topic-date-wrapper,
+    .topic-clock-wrapper {
+        margin: 0.25rem 0.75rem;
+    }
 }
 
 .topic-venue-icon,
@@ -128,7 +141,14 @@
 .topic-clock-icon {
     width: 1rem;
     height: auto;
-    margin-right: 0.25rem;
+    margin-right: 0.1rem;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .topic-venue-icon,
+    .topic-date-icon,
+    .topic-clock-icon {
+        margin-right: 0.25rem;
+    }
 }
 
 .topic-venue,
@@ -351,7 +371,7 @@
     width: 100%;
 }
 
-@media screen and (max-width: 75em) {
+@media screen and (max-width: $media-bp-xlarge) {
     .topic-container > .venue-container {
         margin-top: 3rem;
     }
@@ -361,12 +381,12 @@
     position: relative;
     margin-top: 10px;
 }
-@media screen and (max-width: 40em) {
+@media screen and (max-width: $media-bp-medium) {
     .postlist-container {
         min-width: 10rem;
     }
 }
-@media screen and (min-width: 30em) {
+@media screen and (min-width: $media-bp-small) {
     .postlist-container {
         min-width: 20rem;
     }
@@ -472,7 +492,7 @@
     min-height: 2.5rem;
     margin: 0 0.75rem;
 }
-@media screen and (max-width: 40em) {
+@media screen and (max-width: $media-bp-medium) {
     .topic-form-buttons-container {
         flex-direction: column;
     }

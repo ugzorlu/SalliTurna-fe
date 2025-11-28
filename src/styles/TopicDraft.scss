@@ -293,7 +293,7 @@
     min-height: 2.5rem;
     margin: 0 0.75rem;
 }
-@media screen and (max-width: 40em) {
+@media screen and (max-width: $media-bp-medium) {
     .topicdraftform-buttons-container {
         flex-direction: column;
     }

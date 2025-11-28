@@ -758,6 +758,11 @@ class Topic extends Component {
         name: topic.topic_title,
         startDate: topic.start_date,
         endDate: topic.end_date || null,
+        offers: {
+            // INFO: This property transparently tells Google that the ticket is sold elsewhere.
+            '@type': 'Offer',
+            url: topic.source_link, // Link to the real seller
+        },
         eventAttendanceMode:
             topic.City?.city_id === CITY_ID.ONLINE
                 ? 'OnlineEventAttendanceMode'
@@ -1168,8 +1173,8 @@ class Topic extends Component {
                                                   {Topic.City.city_id ===
                                                       CITY_ID.ONLINE &&
                                                   Topic.isFree
-                                                      ? 'Etkinliğe Katıl'
-                                                      : 'Bilgi Al'}
+                                                      ? 'Bilgi Al'
+                                                      : 'Bilet Al'}
                                               </div>
                                           </div>
                                       </a>
