@@ -76,14 +76,26 @@
 }
 
 .home-welcomemsg-text-left {
-    margin-left: 1rem;
     text-align: left;
+}
+@media screen and (min-width: $media-bp-medium) {
+    .home-welcomemsg-text-left {
+        margin-left: 1rem;
+    }
 }
 
 .home-welcomemsg-text-right {
-    margin-right: 1rem;
     text-align: right;
 }
+@media screen and (min-width: $media-bp-medium) {
+    .home-welcomemsg-text-right {
+        margin-right: 1rem;
+    }
+}
+
+// .home-welcomemsg-text-curve {
+//     display: none;
+// }
 
 .home-redirect-topics-bottom {
     display: flex;

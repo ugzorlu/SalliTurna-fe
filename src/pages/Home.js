@@ -181,9 +181,7 @@ class EventCard extends Component {
             <a href={topic.source_link} target="_blank" rel="noreferrer">
                 <div className="topic-source-link">
                     <div className="topic-source-link-text">
-                        {topic.City.city_id === 82 && topic.isFree
-                            ? 'Etkinliğe Katıl'
-                            : 'Bilgi Al'}
+                        {topic.isFree ? 'Bilgi Al' : 'Bilet Al'}
                     </div>
                 </div>
             </a>
@@ -199,8 +197,8 @@ class EventCard extends Component {
                 {/* {this.renderAdsense()} */}
                 <Link to={{ pathname: '/topic/' + topic.topic_id }}>
                     <div className="topic-title-container">
-                        <div className="topic-title-wrapper">
-                            <div className="topic-title">
+                        <div className="home-topic-title-wrapper">
+                            <div className="home-topic-title">
                                 {topic.topic_title}
                             </div>
                             {this.renderInfo()}
@@ -242,9 +240,9 @@ class TopicCard extends Component {
             <div className="home-bestposts-topic-container">
                 {/* {this.renderAdsense()} */}
                 <Link to={{ pathname: '/topic/' + topic.topic_id }}>
-                    <div className="topic-title-container">
-                        <div className="topic-title-wrapper">
-                            <div className="topic-title">
+                    <div className="home-topic-title-container">
+                        <div className="home-topic-title-wrapper">
+                            <div className="home-topic-title">
                                 {topic.topic_title}
                                 {/* ({topic.Category.category_name}) */}
                             </div>
@@ -546,9 +544,22 @@ class Home extends Component {
 
         return (
             <div className="home-welcomemsg">
+                {/* <svg className="home-welcomemsg-text home-welcomemsg-text-left">
+                    <path
+                        id="curve"
+                        className="home-welcomemsg-text-curve"
+                        d="M200 200 Q 0 0, 50 50"
+                    />
+                    <text fill="white">
+                        <textPath href="#curve">
+                            Güncel etkinlikleri ve kültür-sanat konularını
+                            keşfet.
+                        </textPath>
+                    </text>
+                </svg> */}
                 <h1 className="home-welcomemsg-text home-welcomemsg-text-left">
-                    Kültür-sanat konularını
-                    <br></br>ve etkinliklerini incele.
+                    Yakındaki etkinlikleri ve
+                    <br></br> kültür-sanat konularını keşfet.
                 </h1>
                 <h1 className="home-welcomemsg-text home-welcomemsg-text-right">
                     Hatırlatmaları al.
@@ -832,7 +843,7 @@ class Home extends Component {
         return (
             <>
                 <Helmet>
-                    <title>{`Şallı Turna - İnteraktif Etkinlik ve Kültür-Sanat Portalı`}</title>
+                    <title>{`Şallı Turna | İnteraktif Etkinlik ve Kültür-Sanat Platformu`}</title>
                 </Helmet>
                 <div className="home-container">
                     {this.renderWelcomeArea()}
